@@ -1,0 +1,13 @@
+<div class="container" layout="row" flex>
+    <md-sidenav md-is-locked-open="$mdMedia('gt-sm')" class="md-whiteframe-4dp" md-component-id="left">
+        <md-list ng-click="vm.toggleLessonList()">
+            <md-list-item ng-repeat="s in vm.senators | orderBy : 'state'">
+                <a class="md-button" id="btn" ng-click="vm.selectSenator(s); vm.setActive(s, vm.senators)" ng-class="{active: s.active}" on-load-clicker index="$index"><img ng-src="https://know-my-senators.herokuapp.com/public/img/senators/{{s.id}}.jpg" alt="" class="ph-image"> {{s.first_name + " " + s.last_name + " - " + s.state }}</a>
+            </md-list-item>
+           
+        </md-list>
+    </md-sidenav>
+    <md-content id="content" flex>
+        <content selected="vm.selected" votes="vm.votes"></content>  
+    </md-content>
+</div>

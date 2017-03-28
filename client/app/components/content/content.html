@@ -1,0 +1,27 @@
+<a ng-href="{{selected.url}}" target="_blank" title="go to {{selected.url}}"><img ng-src="https://know-my-senators.herokuapp.com/public/img/senators/{{selected.id}}.jpg" class="avatar">
+    <h2>{{selected.first_name + " " + selected.last_name + "("+selected.party+"-"+selected.state+")"}}</h2></a>
+<h4>Votes with party: {{selected.votes_with_party_pct}}%</h4>
+<div layout="column" flex class="vote-content">
+    <div ng-view flex>
+    <i>* click vote for results</i>
+        <md-card ng-repeat="v in votes" ng-click="vm.selectVotes(v); vm.setActive(v, votes); vm.voteResults(vm.selectedVote, vm.results)" ng-class="{active: v.active}">
+            <h3>{{v.date | date:'longDate'}} - {{v.description}} 
+                <br>{{selected.first_name + " " + selected.last_name}} Voted {{v.position + ' ' + v.question}}</h3>
+                <div layout="row" layout-sm="column" layout-align="space-around" ng-if="vm.isLoading && v.active">
+                <md-progress-circular md-mode="indeterminate" class="md-warn md-hue-3"></md-progress-circular>
+            </div>
+            <p ng-if="v.active && vm.results.roll_call === v.roll_call">Results: {{vm.results.result}} <br>
+             Total Vote: No = {{vm.results.total.no}} Yes = {{vm.results.total.yes}}
+                <br> Democrat Vote: No = {{vm.results.democratic.no}} Yes = {{vm.results.democratic.yes}}
+                <br> Republican Vote: No = {{vm.results.republican.no}} Yes = {{vm.results.republican.yes}}
+            </p>
+            <p ng-if="v.active && vm.err">Total results for this vote are not available.</p>
+        </md-card>
+    </div>
+</div>
+<md-button class="share" md-no-ink aria-label="Share with {{selected.name}}" ng-click="vm.makeContact(selected)">
+    <md-icon md-svg-icon="share"></md-icon>
+</md-button>
+<div>
+    <!-- <comment></comment> -->
+</div>
