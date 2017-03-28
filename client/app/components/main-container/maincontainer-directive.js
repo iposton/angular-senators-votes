@@ -40,6 +40,7 @@
                 // Define functions
                 self.selectSenator = selectSenator;
                 self.setActive = setActive;
+                
                 self.getVotes = getVotes;
 
                function getVotes(selected) {

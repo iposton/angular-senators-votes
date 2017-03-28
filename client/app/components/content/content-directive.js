@@ -37,9 +37,10 @@
                     if (r === undefined || r.roll_call != v.roll_call) {
                         self.isLoading = true;
                         self.err = false;
+                        var voteUri = v.vote_uri;
                         $http({
                             method: 'get',
-                            url: 'https://api.propublica.org/congress/v1/115/senate/sessions/' + v.session + '/votes/' + v.roll_call + '.json',
+                            url: voteUri,
                             headers: { 'X-API-KEY': API_KEY }
                         }).then(function(response) {
 
