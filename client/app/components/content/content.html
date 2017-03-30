@@ -1,8 +1,10 @@
 <div layout="row" layout-sm="column" layout-align="space-around" ng-if="!selected">
     <md-progress-circular md-mode="indeterminate" class="md-warn md-hue-3"></md-progress-circular>
 </div>
-<a ng-href="{{selected.url}}" target="_blank" title="go to {{selected.url}}" ng-if="selected"><img ng-src="https://know-my-senators.herokuapp.com/public/img/senators/{{selected.id}}.jpg" class="avatar">
+<div ng-class="{'repub': selected.party == 'R', 'demo': selected.party == 'D'}">
+<a ng-href="{{selected.url}}" target="_blank" title="go to {{selected.url}}" ng-if="selected"><img ng-src="assets/img/senators/{{selected.id}}.jpg" class="avatar">
     <h2 ng-if="selected">{{selected.first_name + " " + selected.last_name + "("+selected.party+"-"+selected.state+")"}}</h2></a>
+    </div>
 <h4 ng-if="selected">Votes with party: {{selected.votes_with_party_pct}}%</h4>
 <div layout="column" flex class="vote-content" ng-if="selected">
     <div ng-view flex>
@@ -26,8 +28,9 @@
         </md-card>
     </div>
 </div>
-<md-button class="share" md-no-ink aria-label="Share with {{selected.name}}" ng-click="vm.makeContact(selected)">
-    <md-icon md-svg-icon="share"></md-icon>
+<md-button class="share md-raised md-accent" md-no-ink aria-label="Share with {{selected.name}}" ng-click="vm.makeContact(selected)">
+    <!-- <md-icon md-svg-icon="share"></md-icon> -->
+    contact
 </md-button>
 <div>
     <!-- <comment></comment> -->

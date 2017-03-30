@@ -13,12 +13,13 @@
                 controllerAs: "vm"
             }
 
-            function topBarCtrl ($mdBottomSheet, $mdSidenav) {
+            function topBarCtrl ($mdBottomSheet, $mdSidenav, $scope) {
 
                 var self = this;
                  
                  // Define Functions 
                 self.toggleList = toggleList;
+                
 
                  // VALUES FOR THE POPOVER ON NAV
                 self.classes = 'drop-theme-arrows-bounce-dark';
@@ -29,6 +30,8 @@
 
                 self.myWebsite = 'http://www.ianposton.com/';
                 self.myRepo = 'https://github.com/iposton/angular-material-dynamic-list';
+
+                 
 
                  function toggleList($event) {
                     $mdSidenav('left').toggle();

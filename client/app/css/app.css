@@ -225,9 +225,29 @@ h1 {
     color: #111;
 }
 
-md-list-item .active {
+/*md-list-item .active {
     background-color: rgba(158, 158, 158, 0.2);
 }
+*/
+
+md-list-item  .active.republican {
+    background-color: rgba(231, 76, 60, 0.2);
+}
+
+md-list-item .active.democrat {
+    background-color: rgba(52, 152, 219, 0.2);
+}
+
+md-list-item:hover .republican,
+md-list .md-button:not([disabled]):hover.republican  {
+    background-color: rgba(231, 76, 60, 0.2);
+}
+
+md-list-item:hover .democrat,
+md-list .md-button:not([disabled]):hover.democrat {
+    background-color: rgba(52, 152, 219, 0.2);
+}
+
 
 md-list-item .md-focused {
     background: #fff!important;
@@ -579,6 +599,14 @@ md-card.active {
 .vote-content md-card h3 {
   text-align: center;
   text-shadow: 2px 1px 3px rgba(150, 150, 150, 1);
+}
+
+md-content.repub {
+    background: rgba(231, 76, 60, 0.2)!important;
+}
+
+md-content.demo {
+    background: rgba(52, 152, 219, 0.2)!important;
 }
 
 

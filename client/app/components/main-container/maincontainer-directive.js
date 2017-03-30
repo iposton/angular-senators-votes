@@ -10,56 +10,67 @@
                 controllerAs: "vm"
             }
 
-            function mainContainerCtrl(mainService, $mdBottomSheet, $mdSidenav, $http) {
+            function mainContainerCtrl(mainService, $mdBottomSheet, $mdSidenav, $http, $scope) {
 
                 var self = this;
 
                 // Set globals
                 self.selected = null;
                 self.tweet = null;
+                self.party = party;
 
-                
+                self.selParty = 'all';
+
+                function party(p) {
+                    // console.log($scope.selected);
+                    if (self.selParty == 'all') {
+                        return true;
+                    }
+                    return self.selParty == p;
+                };
+
+
 
                 $http({
-                        method: 'get',
-                        url: 'https://api.propublica.org/congress/v1/115/senate/members.json',
-                        headers: {'X-API-KEY': API_KEY}
-                      }).then(function (response) {
+                    method: 'get',
+                    url: 'https://api.propublica.org/congress/v1/115/senate/members.json',
+                    headers: { 'X-API-KEY': API_KEY }
+                }).then(function(response) {
 
 
-                        console.log(response.data.results[0].members, ' members');
-                        self.senators = response.data.results[0].members;
+                    console.log(response.data.results[0].members, ' members');
+                    self.senators = response.data.results[0].members;
 
-                       // the success method called
+                    // the success method called
 
-                    }).catch(function(error){
-                       console.error("Error with GET request", error); 
-                   })
-                
+                }).catch(function(error) {
+                    console.error("Error with GET request", error);
+                })
+
 
                 // Define functions
                 self.selectSenator = selectSenator;
                 self.setActive = setActive;
-                
+
                 self.getVotes = getVotes;
 
-               function getVotes(selected) {
-                 $http({
+                function getVotes(selected) {
+                    $http({
                         method: 'get',
-                        url: 'https://api.propublica.org/congress/v1/members/'+self.selected.id+'/votes.json',
-                        headers: {'X-API-KEY': API_KEY}
-                      }).then(function (response) {
+                        url: 'https://api.propublica.org/congress/v1/members/' + self.selected.id + '/votes.json',
+                        headers: { 'X-API-KEY': API_KEY }
+                    }).then(function(response) {
 
 
                         console.log(response.data.results[0].votes, ' votes');
                         self.votes = response.data.results[0].votes;
 
-                       // the success method called
+                        // the success method called
 
-                    }).catch(function(error){
-                       console.error("Error with GET request", error); 
-                   })
-               }
+                    }).catch(function(error) {
+                        console.error("Error with GET request", error);
+                    })
+                }
 
                 function selectSenator(senator) {
                     self.selected = senator;
@@ -82,7 +93,7 @@
 
                 }
 
-               
+
 
 
             }
