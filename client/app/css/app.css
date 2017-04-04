@@ -67,7 +67,7 @@ md-sidenav md-list {
 }
 
 #content .md-button.share {
-    background-color: transparent;
+    /*background-color: transparent;*/
     border: none;
     width: 48px;
     height: 48px;
@@ -231,21 +231,25 @@ h1 {
 */
 
 md-list-item  .active.republican {
-    background-color: rgba(231, 76, 60, 0.2);
+    background-color: rgba(231, 76, 60, 0.8);
+    color: #FFF;
 }
 
 md-list-item .active.democrat {
-    background-color: rgba(52, 152, 219, 0.2);
+    background-color: rgba(52, 152, 219, 0.6);
+    color: #FFF;
 }
 
 md-list-item:hover .republican,
 md-list .md-button:not([disabled]):hover.republican  {
-    background-color: rgba(231, 76, 60, 0.2);
+    background-color: rgba(231, 76, 60, 0.8);
+    color: #FFF;
 }
 
 md-list-item:hover .democrat,
 md-list .md-button:not([disabled]):hover.democrat {
-    background-color: rgba(52, 152, 219, 0.2);
+    background-color: rgba(52, 152, 219, 0.6);
+    color: #FFF;
 }
 
 
@@ -581,7 +585,7 @@ button {
 }
 
 md-card.active {
-    background-color: #2196f3;
+    background-color: #ccc;
     color: #fff;
 }
 
@@ -596,17 +600,68 @@ md-card.active {
   cursor: pointer;
 }
 
-.vote-content md-card h3 {
+.vote-content md-card p {
   text-align: center;
-  text-shadow: 2px 1px 3px rgba(150, 150, 150, 1);
+  font-size: 20px;
+  /*text-shadow: 2px 1px 3px rgba(150, 150, 150, 1);*/
 }
 
-md-content.repub {
-    background: rgba(231, 76, 60, 0.2)!important;
+.rep {
+    background: rgba(231, 76, 60, 0.8)!important;
+    color: #FFF!important;
 }
 
-md-content.demo {
-    background: rgba(52, 152, 219, 0.2)!important;
+.dem {
+    background: rgba(52, 152, 219, 0.6)!important;
+    color: #FFF!important;
+}
+
+.rep-con {
+    background: rgba(231, 76, 60, 0.8)!important;
+    color: #FFF;
+    
+}
+
+.dem-con {
+    background: rgba(52, 152, 219, 0.6)!important;
+    color: #FFF;
+    
+}
+
+.party-con h2 {
+   margin: 0;
+   padding: 5px;
+  
+}
+
+.party-con h4 {
+  margin: 0;
+  padding: 0 0 5px 5px;
+}
+
+.party-con {
+   width: 35%;
+}
+
+
+
+
+.img-box {
+    background-repeat: no-repeat!important;
+    background-position: center!important;
+    background-size: 128px!important;
+    /*background-image: -webkit-linear-gradient(rgba(231, 76, 60, 0.6), rgba(231, 76, 60, 0.2))!important;*/
+    /*background-image: linear-gradient(rgba(231, 76, 60, 0.2), rgba(231, 76, 60, 0.2))!important;*/
+}
+
+.vote-content .no {
+  color: rgba(231, 76, 60, 0.8);
+  font-weight: bold;
+}
+
+.vote-content .yes {
+  color: rgba(92, 184, 92, 0.6);
+  font-weight: bold;
 }
 
 

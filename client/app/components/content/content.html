@@ -1,19 +1,28 @@
+<style parse-style> 
+md-content.repub .img-box {background: linear-gradient(rgba(231, 76, 60, 0.3), rgba(231, 76, 60, 0.3)),url(assets/img/senators/{{selected.id}}.jpg);}
+md-content.demo .img-box {background: linear-gradient(rgba(52, 152, 219, 0.3), rgba(52, 152, 219, 0.3)),url(assets/img/senators/{{selected.id}}.jpg);}
+</style>
 <div layout="row" layout-sm="column" layout-align="space-around" ng-if="!selected">
     <md-progress-circular md-mode="indeterminate" class="md-warn md-hue-3"></md-progress-circular>
 </div>
-<div ng-class="{'repub': selected.party == 'R', 'demo': selected.party == 'D'}">
-<a ng-href="{{selected.url}}" target="_blank" title="go to {{selected.url}}" ng-if="selected"><img ng-src="assets/img/senators/{{selected.id}}.jpg" class="avatar">
-    <h2 ng-if="selected">{{selected.first_name + " " + selected.last_name + "("+selected.party+"-"+selected.state+")"}}</h2></a>
+
+<a ng-href="{{selected.url}}" target="_blank" title="go to {{selected.url}}" ng-if="selected">
+    <div class="img-box avatar"></div>
+    <div ng-class="{'rep-con': selected.party == 'R', 'dem-con': selected.party == 'D'}" class="party-con">
+         <h2 ng-if="selected">{{selected.first_name + " " + selected.last_name + "("+selected.party+"-"+selected.state+")"}}</h2>
+         <h4 ng-if="selected">Votes with party: {{selected.votes_with_party_pct}}%</h4>
     </div>
-<h4 ng-if="selected">Votes with party: {{selected.votes_with_party_pct}}%</h4>
+   </a>
+   <i>* click vote for results</i>
+
 <div layout="column" flex class="vote-content" ng-if="selected">
     <div ng-view flex>
-        <i>* click vote for results</i>
+        
         <md-card ng-repeat="v in votes" ng-click="vm.selectVotes(v); vm.setActive(v, votes); vm.voteResults(vm.selectedVote, vm.results)" ng-class="{active: v.active}">
-            <h3 ng-if="vm.results.roll_call != v.roll_call">{{v.date | date:'longDate'}} - {{v.description}} 
-                <br>{{selected.first_name + " " + selected.last_name}} Voted {{v.position + ' ' + v.question}}</h3>
-            <h3 ng-if="vm.results.roll_call === v.roll_call">{{v.date | date:'longDate'}} - {{vm.results.description}} 
-                <br>{{selected.first_name + " " + selected.last_name}} Voted {{v.position + ' ' + v.question}}</h3>
+            <p ng-if="vm.results.roll_call != v.roll_call">{{v.date | date:'longDate'}} - {{v.description}} 
+                <br>{{selected.first_name + " " + selected.last_name}} Voted <span ng-class="{'no': v.position == 'No', 'yes': v.position == 'Yes'}">{{v.position}}</span> {{v.question}}</p>
+            <p ng-if="vm.results.roll_call === v.roll_call">{{v.date | date:'longDate'}} - {{vm.results.description}} 
+                <br>{{selected.first_name + " " + selected.last_name}} Voted <span ng-class="{'no': v.position == 'No', 'yes': v.position == 'Yes'}">{{v.position}}</span> {{v.question}}</p>
             <div layout="row" layout-sm="column" layout-align="space-around" ng-if="vm.isLoading && v.active">
                 <md-progress-circular md-mode="indeterminate" class="md-warn md-hue-3"></md-progress-circular>
             </div>
@@ -28,7 +37,7 @@
         </md-card>
     </div>
 </div>
-<md-button class="share md-raised md-accent" md-no-ink aria-label="Share with {{selected.name}}" ng-click="vm.makeContact(selected)">
+<md-button ng-class="{'rep': selected.party == 'R', 'dem': selected.party == 'D'}" class="share md-raised" md-no-ink aria-label="Share with {{selected.name}}" ng-click="vm.makeContact(selected)">
     <!-- <md-icon md-svg-icon="share"></md-icon> -->
     contact
 </md-button>
