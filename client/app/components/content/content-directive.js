@@ -8,152 +8,128 @@
                 templateUrl: "components/content/content.html",
                 scope: {
                     selected: '=selected',
-                    votes: '=votes'
+                    votes: '=votes',
+                    gettingvotes: '=gettingvotes',
+                    vootestoday: '=votestoday'
 
                 },
                 controller: contentCtrl,
                 controllerAs: "vm"
             }
 
-            function contentCtrl(mainService, $mdBottomSheet, $mdSidenav, $scope, $mdDialog, $mdToast, $http, $mdPanel, $compile, $timeout) {
+            function contentCtrl(mainService, $mdBottomSheet, $mdSidenav, $scope, $mdDialog, $mdToast, $http, $mdPanel, $compile, $timeout, $filter, $mdDateLocale) {
 
                 var self = this;
 
                 self.message = null;
                 self.isLoading = false;
+                self.haveNoVotes = true;
 
                 // DEFINE FUNCTIONS
                 self.makeContact = makeContact;
-                // self.incrementVotes = incrementVotes;
-                self.showToast = showToast;
-                self.showMenuPropub = showMenuPropub;
-
                 self.voteResults = voteResults;
                 self.selectVotes = selectVotes;
                 self.setActive = setActive;
 
+                // WATCH THE MD-DATEPICKER SELECTED DATE 
+                $scope.$watch('dateObj', function(newVal, oldVal) {
+                    if (!newVal.myDate) {
+                        return false;
+                    }
+                    // CREATE VALUE FOR NG-IF CONDITION TO GET VOTING DATA ASSOCIATED WITH THE SELECTED DATE
+                    self.date = $filter('date')(new Date(newVal.myDate), "yyyy-MM-dd");
+                    //console.log(self.date);
+
+                    if (newVal != oldVal) {
+                        // IF HAS NO VOTES TRUE SHOW NO VOTE MESSAGE 
+                        self.haveNoVotes = true;
+                        //console.log(self.hasNoVotes, "reset has not votes watching date change")
+                    }
+                }, true);
+
 
                 function voteResults(v, r) {
-                    if (r === undefined || r.roll_call != v.roll_call) {
-                        self.isLoading = true;
+                    self.haveNoVotes = false;
+                    self.resultsArr = [];
+
+                    self.isLoading = true;
+                    self.err = false;
+                    var voteUri = v.vote_uri;
+                    $http({
+                        method: 'get',
+                        url: voteUri,
+                        headers: { 'X-API-KEY': API_KEY }
+                    }).then(function(response) {
+
+                        self.haveNoVotes = false;
+                        //console.log(self.haveNoVotes, "get vote results for today");
+                        //console.log(response.data.results.votes.vote, 'votes by specific session and roll call number');
+                        self.results = response.data.results.votes.vote;
+                        self.resultsArr.push(self.results);
+                        //console.log(self.resultsArr, "results array");
+                        self.isLoading = false;
                         self.err = false;
-                        var voteUri = v.vote_uri;
-                        $http({
-                            method: 'get',
-                            url: voteUri,
-                            headers: { 'X-API-KEY': API_KEY }
-                        }).then(function(response) {
 
 
-                            console.log(response.data.results.votes.vote, 'votes by specific session and roll call number');
-                            self.results = response.data.results.votes.vote;
-                            self.isLoading = false;
-                            self.err = false;
+                    }).catch(function(error) {
+                        console.error("Error with GET request", error);
+                        self.isLoading = false;
+                        self.err = true;
 
+                    })
 
-                        }).catch(function(error) {
-                            console.error("Error with GET request", error);
-                            self.isLoading = false;
-                            self.err = true;
-
-                        })
-
-                    } else {
-                        return
-                    }
-
-                }
-
-
-
-                function showMenuPropub(ev) {
-                    var position = $mdPanel.newPanelPosition()
-                        .relativeTo('.pro-fab')
-                        .addPanelPosition($mdPanel.xPosition.ALIGN_START, $mdPanel.yPosition.BELOW);
-                    var config = {
-                        attachTo: angular.element(document.body),
-                        controller: contentCtrl,
-                        controllerAs: 'vm',
-                        template: '<div class="demo-menu-example" ' +
-                            '     aria-label="senators" ' +
-                            '     role="listbox">' +
-                            '<div layout="row" layout-sm="column" layout-align="space-around" ng-if="!vm.senators">' +
-                            ' <md-progress-linear class="md-warn" md-mode="intermediate"></md-progress-linear>' +
-                            '</div>' +
-                            '     <h4 ng-if="vm.senators">Tweet your state senator</h4> ' +
-                            '    <h5 ng-if="vm.senators">{{vm.day | date:\'fullDate\'}}</h5>' +
-                            '  <div class="demo-menu-item" ' +
-                            '       ng-class="" ' +
-                            '       aria-selected="" ' +
-                            '       tabindex="-1" ' +
-                            '       role="option" ' +
-                            '       ng-click=""' +
-                            '       ng-repeat="s in vm.senators"' +
-                            '       ng-keydown="">' +
-                            '    <a ng-href="https://twitter.com/{{s.twitter_account}}"><img ng-src="https://know-my-senators.herokuapp.com/public/img/senators/{{s.id}}.jpg" alt="" class="ph-image"> {{s.first_name}} {{s.last_name}} {{s.state}}</a>  ' +
-                            '  </div>' +
-                            '</div>',
-                        position: position,
-                        openFrom: ev,
-                        clickOutsideToClose: true,
-                        escapeToClose: true,
-                        focusOnOpen: false,
-                        zIndex: 2
-                    };
-
-                    $mdPanel.open(config);
 
 
                 }
 
+                // CREATE CURRENT DATE AND OBJECT FOR THE DATEPICKER 
+                // WITH MIN AND MAX DATE SELECTION
+                var nd = new Date();
+
+                $scope.dateObj = {
+                    myDate: nd
+                }
+
+                self.minDate = new Date(
+                    new Date().getFullYear(),
+                    new Date().getMonth() - 2,
+                    new Date().getDate()
+                );
+
+                self.maxDate = new Date(
+                    new Date().getFullYear(),
+                    new Date().getMonth(),
+                    new Date().getDate()
+                );
+                
+                // FORMAT THE DATE FOR THE DATEPICKER
+                $mdDateLocale.formatDate = function(date) {
+                    return $filter('date')($scope.dateObj.myDate, "mediumDate");
+                };
 
 
-
-                $scope.$on('commentSent', function(event, message) {
-                    showToast(message);
-                });
-
-
-
-                // function incrementVotes(selected, vote) {
-                //     var votedValue = null;
-
-                //     if (vote === selected.like) {
-                //         selected.like += 1;
-                //         self.lessons.$save(selected);
-                //         votedValue = 'like';
-
-
-                //     } else {
-                //         selected.dislike += 1;
-                //         self.lessons.$save(selected);
-                //         votedValue = 'dislike';
-
-                //     }
-
-                //     selected.voted = self.voted = true;
-                //     selected.message = 'You chose to ' + votedValue + ' ' + selected.name + '. Thank you for voting!';
-                //     var message = selected.message;
+                // $scope.$on('commentSent', function(event, message) {
                 //     showToast(message);
-                // }
+                // });
 
-                function showToast(message) {
-                    $mdToast.show(
-                        $mdToast.simple()
-                        .textContent(message)
-                        .action('OK')
-                        .highlightAction(true)
-                        .hideDelay(0)
-                        .position('bottom right')
-                        .parent(angular.element(document.body))
-                    );
-                }
+
+
+                // function showToast(message) {
+                //     $mdToast.show(
+                //         $mdToast.simple()
+                //         .textContent(message)
+                //         .action('OK')
+                //         .highlightAction(true)
+                //         .hideDelay(0)
+                //         .position('bottom right')
+                //         .parent(angular.element(document.body))
+                //     );
+                // }
 
                 function selectVotes(vote) {
                     self.selectedVote = vote;
                     //$mdBottomSheet.hide(self.selected);
                     //$mdSidenav('left').toggle();
-                    // self.getTweet();
                     //self.getVotes();
 
                 }
@@ -206,13 +182,16 @@
 
             }
         }).directive('parseStyle', function($interpolate) {
-    return function(scope, elem) {
-        var exp = $interpolate(elem.html()),
-            watchFunc = function () { return exp(scope); };
+            // A custom directive for using inline css according to dynamic {{data}} 
+            //and ng-class
+            return function(scope, elem) {
+                var exp = $interpolate(elem.html()),
+                    watchFunc = function() {
+                        return exp(scope); };
 
-        scope.$watch(watchFunc, function (html) {
-            elem.html(html);
+                scope.$watch(watchFunc, function(html) {
+                    elem.html(html);
+                });
+            };
         });
-    };
-});
 }());

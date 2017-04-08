@@ -27,7 +27,7 @@ md-toolbar h3 {
 }
 
 md-toolbar {
-  text-align: center;
+    text-align: center;
 }
 
 
@@ -46,7 +46,6 @@ md-list .md-button.selected {
 md-sidenav md-list {
     padding: 0 0 8px 0;
 }
-
 
 .container {
     height: 92vh;
@@ -110,22 +109,24 @@ md-sidenav md-list {
     color: #27ae60;
 }
 
+
 /* COMMENT */
 
 .comment {
-    position: absolute; 
-    bottom: 0; 
+    position: absolute;
+    bottom: 0;
     right: 10px;
 }
 
 .md-button.md-send.md-raised:not([disabled]) {
-    color: rgb(255,255,255);
+    color: rgb(255, 255, 255);
     background-color: #27ae60;
 }
 
 .md-button.md-send.md-raised:not([disabled]):hover {
     background-color: #218c4e;
 }
+
 
 /* TWEET */
 
@@ -147,7 +148,6 @@ md-toolbar h1 {
     font-size: 1.250em;
     font-weight: 400;
     padding-left: 10px;
-
 }
 
 .avatar {
@@ -188,7 +188,6 @@ span.name {
 }
 
 
-
 /*md-bottom-sheet md-icon {
     margin-right: 20px;
 }
@@ -225,12 +224,13 @@ h1 {
     color: #111;
 }
 
+
 /*md-list-item .active {
     background-color: rgba(158, 158, 158, 0.2);
 }
 */
 
-md-list-item  .active.republican {
+md-list-item .active.republican {
     background-color: rgba(231, 76, 60, 0.8);
     color: #FFF;
 }
@@ -241,7 +241,7 @@ md-list-item .active.democrat {
 }
 
 md-list-item:hover .republican,
-md-list .md-button:not([disabled]):hover.republican  {
+md-list .md-button:not([disabled]):hover.republican {
     background-color: rgba(231, 76, 60, 0.8);
     color: #FFF;
 }
@@ -252,7 +252,6 @@ md-list .md-button:not([disabled]):hover.democrat {
     color: #FFF;
 }
 
-
 md-list-item .md-focused {
     background: #fff!important;
 }
@@ -260,6 +259,7 @@ md-list-item .md-focused {
 md-list:focus {
     outline: none;
 }
+
 
 /* TOOL TIP STYLE */
 
@@ -280,9 +280,9 @@ button {
 }
 
 .drop-element.drop-theme-arrows-bounce-dark .drop-content {
-  
     opacity: 0.75;
 }
+
 
 /* ADMIN */
 
@@ -301,30 +301,31 @@ button {
     margin: 5px;
 }
 
+
 /* FORM */
 
 .md-form {
     margin: 15px 10px 0 10px;
 }
 
+
 /* POPOVER */
 
 .pop-over {
     color: #fff;
-
 }
 
 .pop-over a {
-    text-decoration: none; 
-    color:#fff;
+    text-decoration: none;
+    color: #fff;
 }
 
 .pop-over span {
-    float:right;
+    float: right;
 }
 
 .pop-over h5 {
-    color: #ccc; 
+    color: #ccc;
     font-family: 'Roboto';
 }
 
@@ -332,20 +333,19 @@ button {
 /* COMMENT CSS */
 
 .close-icon {
-    margin: 0 5px 0 0; 
-    cursor:pointer; 
-    
+    margin: 0 5px 0 0;
+    cursor: pointer;
 }
 
 *:focus {
-    
     outline: none;
 }
 
 .wrapper {
-  max-height: 200px;
-  overflow: auto;
+    max-height: 200px;
+    overflow: auto;
 }
+
 
 /* Product Hunt */
 
@@ -370,10 +370,8 @@ button {
     margin-right: 3px;
 }
 
-
-
 .ph-fab {
-    background-image:url(../assets/img/producthunt.png);
+    background-image: url(../assets/img/producthunt.png);
     background-size: 80px 80px;
     background-repeat: no-repeat;
     background-position: center;
@@ -390,60 +388,53 @@ button {
     /*position: absolute;
     top: 0;
     right: 0;*/
-    
 }
-
 
 .ph-fab:after {
-  position: absolute;
-  content: '';
-  top: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-  background-image: -webkit-linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url(../assets/img/producthunt.png);
-  background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url(../assets/img/producthunt.png);
-  transition: opacity 0.3s ease-out;
-  z-index: 2;
-  opacity: 0;
-  
+    position: absolute;
+    content: '';
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-image: -webkit-linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url(../assets/img/producthunt.png);
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url(../assets/img/producthunt.png);
+    transition: opacity 0.3s ease-out;
+    z-index: 2;
+    opacity: 0;
 }
 
-.ph-fab:not([disabled]):hover:after {    
+.ph-fab:not([disabled]):hover:after {
     opacity: 1;
 }
 
-
-
 .demo-menu-example {
-  background: white;
-  border-radius: 4px;
-  box-shadow: 0 7px 8px -4px rgba(0, 0, 0, 0.2),
-      0 13px 19px 2px rgba(0, 0, 0, 0.14),
-      0 5px 24px 4px rgba(0, 0, 0, 0.12);
-  width: 356px;
-  padding-top: 10px;
-  max-height: 200px;
-  overflow: auto;
+    background: white;
+    border-radius: 4px;
+    box-shadow: 0 7px 8px -4px rgba(0, 0, 0, 0.2), 0 13px 19px 2px rgba(0, 0, 0, 0.14), 0 5px 24px 4px rgba(0, 0, 0, 0.12);
+    width: 356px;
+    padding-top: 10px;
+    max-height: 200px;
+    overflow: auto;
 }
 
-.demo-menu-example h4, 
+.demo-menu-example h4,
 .demo-menu-example h5 {
-  text-align: center;
-  margin-top: 0;
-  margin-bottom: 5px;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 5px;
 }
 
 .demo-menu-item {
-  align-items: center;
-  cursor: pointer;
-  display: flex;
-  height: 48px;
-  padding: 0 16px;
-  position: relative;
-  transition: background 0.15s linear;
-  width: auto;
-  margin-bottom: 5px;
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    height: 48px;
+    padding: 0 16px;
+    position: relative;
+    transition: background 0.15s linear;
+    width: auto;
+    margin-bottom: 5px;
 }
 
 .demo-menu-item a {
@@ -493,10 +484,11 @@ button {
     text-transform: uppercase;
 }
 
+
 /* Podcast feed */
 
 .pc-fab {
-    background-image:url(../assets/img/podcast.png);
+    background-image: url(../assets/img/podcast.png);
     background-size: 80px 80px;
     background-repeat: no-repeat;
     background-position: center;
@@ -513,31 +505,28 @@ button {
     /*position: absolute;
     top: 0;
     right: 0;*/
-    
 }
-
 
 .pc-fab:after {
-  position: absolute;
-  content: '';
-  top: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-  background-image: -webkit-linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url(../assets/img/podcast.png);
-  background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url(../assets/img/podcast.png);
-  transition: opacity 0.3s ease-out;
-  z-index: 2;
-  opacity: 0;
-  
+    position: absolute;
+    content: '';
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-image: -webkit-linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url(../assets/img/podcast.png);
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url(../assets/img/podcast.png);
+    transition: opacity 0.3s ease-out;
+    z-index: 2;
+    opacity: 0;
 }
 
-.pc-fab:not([disabled]):hover:after {    
+.pc-fab:not([disabled]):hover:after {
     opacity: 0.2;
 }
 
 .pro-fab {
-    background-image:url(../assets/img/propublica.jpg);
+    background-image: url(../assets/img/propublica.jpg);
     background-size: 57px 57px;
     background-repeat: no-repeat;
     background-position: center;
@@ -554,56 +543,59 @@ button {
     /*position: absolute;
     top: 0;
     right: 0;*/
-    
 }
-
 
 .pro-fab:after {
-  position: absolute;
-  content: '';
-  top: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-  background-image: -webkit-linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url(../assets/img/propublica.jpg);
-  background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url(../assets/img/propublica.jpg);
-  transition: opacity 0.3s ease-out;
-  z-index: 2;
-  opacity: 0;
-  
+    position: absolute;
+    content: '';
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-image: -webkit-linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url(../assets/img/propublica.jpg);
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url(../assets/img/propublica.jpg);
+    transition: opacity 0.3s ease-out;
+    z-index: 2;
+    opacity: 0;
 }
 
-.pro-fab:not([disabled]):hover:after {    
+.pro-fab:not([disabled]):hover:after {
     opacity: 0.2;
 }
 
 .votes {
-  width: 100%;
-  padding-top: 10px;
-  max-height: auto;
-  overflow: auto;
+    width: 100%;
+    padding-top: 10px;
+    max-height: auto;
+    overflow: auto;
 }
 
-md-card.active {
+
+/*md-card.active {
     background-color: #ccc;
     color: #fff;
-}
+}*/
 
 .vote-content {
-  overflow: scroll; 
-  height: 460px; 
-  position: absolute;
+    overflow: scroll;
+    height: 415px;
+    position: absolute;
 }
 
 .vote-content md-card {
-  padding: 5px;
-  cursor: pointer;
+    padding: 5px;
+    cursor: pointer;
 }
 
-.vote-content md-card p {
-  text-align: center;
-  font-size: 20px;
-  /*text-shadow: 2px 1px 3px rgba(150, 150, 150, 1);*/
+.vote-content p {
+    text-align: center;
+    font-size: 20px;
+    /*text-shadow: 2px 1px 3px rgba(150, 150, 150, 1);*/
+}
+
+.votes-today {
+    text-align: center;
+    font-size: 20px;
 }
 
 .rep {
@@ -619,32 +611,26 @@ md-card.active {
 .rep-con {
     background: rgba(231, 76, 60, 0.8)!important;
     color: #FFF;
-    
 }
 
 .dem-con {
     background: rgba(52, 152, 219, 0.6)!important;
     color: #FFF;
-    
 }
 
 .party-con h2 {
-   margin: 0;
-   padding: 5px;
-  
+    margin: 0;
+    padding: 5px;
 }
 
 .party-con h4 {
-  margin: 0;
-  padding: 0 0 5px 5px;
+    margin: 0;
+    padding: 0 0 5px 5px;
 }
 
 .party-con {
-   width: 35%;
+    width: 35%;
 }
-
-
-
 
 .img-box {
     background-repeat: no-repeat!important;
@@ -655,13 +641,15 @@ md-card.active {
 }
 
 .vote-content .no {
-  color: rgba(231, 76, 60, 0.8);
-  font-weight: bold;
+    color: rgba(231, 76, 60, 0.8);
+    font-weight: bold;
 }
 
 .vote-content .yes {
-  color: rgba(92, 184, 92, 0.6);
-  font-weight: bold;
+    color: rgba(92, 184, 92, 0.6);
+    font-weight: bold;
 }
 
-
+.md-datepicker-input {
+    font-size: 20px;
+}
