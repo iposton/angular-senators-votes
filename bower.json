@@ -11,7 +11,9 @@
     "angular-messages": "^1.6.2",
     "angular-feeds": "^0.0.4",
     "angular-sanitize": "1.2.6",
-    "yui": "^3.18.1"
+    "yui": "^3.18.1",
+    "chart.js": "^2.5.0",
+    "angular-chart.js": "^1.1.1"
   },
   "resolutions": {
     "angular": "^1.5.8"

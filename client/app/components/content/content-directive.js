@@ -52,6 +52,7 @@
                     self.haveNoVotes = false;
                     self.resultsArr = [];
 
+
                     self.isLoading = true;
                     self.err = false;
                     var voteUri = v.vote_uri;
@@ -66,7 +67,7 @@
                         //console.log(response.data.results.votes.vote, 'votes by specific session and roll call number');
                         self.results = response.data.results.votes.vote;
                         self.resultsArr.push(self.results);
-                        //console.log(self.resultsArr, "results array");
+                        console.log(self.resultsArr, "results array");
                         self.isLoading = false;
                         self.err = false;
 
@@ -77,7 +78,6 @@
                         self.err = true;
 
                     })
-
 
 
                 }
@@ -101,7 +101,7 @@
                     new Date().getMonth(),
                     new Date().getDate()
                 );
-                
+
                 // FORMAT THE DATE FOR THE DATEPICKER
                 $mdDateLocale.formatDate = function(date) {
                     return $filter('date')($scope.dateObj.myDate, "mediumDate");
@@ -146,6 +146,27 @@
 
                 }
 
+                // PIE CHART OPTIONS
+                self.labels = ["D (Yes)", "R (Yes)", "D (No)", "R (No)", "Not Voting"];
+                self.optionsC = {
+                    rotation: 0.5 * Math.PI,
+                    // title: {
+                    //     display: true,
+                    //     text: 'Vote Breakdown By Party',
+                    //     fontColor: 'rgba(0,0,0,0.4)',
+                    //     fontSize: 16
+                    // },
+                    legend: {
+                        display: true
+                    }
+                }
+
+
+  // $scope.onClick = function (points, evt) {
+  //   console.log(points, evt);
+  // };
+
+
 
 
                 function makeContact(selectedSenator) {
@@ -187,7 +208,8 @@
             return function(scope, elem) {
                 var exp = $interpolate(elem.html()),
                     watchFunc = function() {
-                        return exp(scope); };
+                        return exp(scope);
+                    };
 
                 scope.$watch(watchFunc, function(html) {
                     elem.html(html);

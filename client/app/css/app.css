@@ -576,6 +576,10 @@ button {
     color: #fff;
 }*/
 
+md-card {
+  width: ;
+}
+
 .vote-content {
     overflow: scroll;
     height: 415px;
@@ -641,18 +645,52 @@ button {
 }
 
 .vote-content .no {
-    color: rgba(231, 76, 60, 0.8);
+    color: rgba(231, 76, 60, 0.9);
     font-weight: bold;
 }
 
 .vote-content .yes {
-    color: rgba(92, 184, 92, 0.6);
+    color: rgba(92, 184, 92, 0.9);
     font-weight: bold;
 }
+
+/* RESULTS*/
+
+.results {
+  border-top: 2px solid #eee;
+}
+
+.results p {
+  margin: 5px 0 0 0;
+}
+
+.results span.y { 
+  background: rgba(92, 184, 92, 0.9);  
+  color: #fff; 
+  border-radius: 3px;
+}
+
+.results span.n { 
+  background: rgba(231, 76, 60, 0.9);
+  color: #fff; 
+  border-radius: 3px;
+}
+
+
+/* DATEPICKER */
 
 .md-datepicker-input {
     font-size: 20px;
 }
+
+/* PIE CHART */
+
+canvas {
+  height:80px; 
+  width: 280px;
+}
+
+
 
 @media only screen and (max-width: 700px) {
       .party-con {

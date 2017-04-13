@@ -43,12 +43,20 @@ md-content.demo .img-box {
                 <p ng-if="r.roll_call === v.roll_call">
                     {{r.description}}
                     <br>{{selected.first_name + " " + selected.last_name}} Voted <span ng-class="{'no': v.position == 'No', 'yes': v.position == 'Yes'}">{{v.position}}</span> {{v.question}}
-                    <br>
-                    <br> Results: {{r.result}}
-                    <br> Total Vote: No = {{r.total.no}} Yes = {{r.total.yes}}
-                    <br> Democrat Vote: No = {{r.democratic.no}} Yes = {{r.democratic.yes}}
-                    <br> Republican Vote: No = {{r.republican.no}} Yes = {{r.republican.yes}}
                 </p>
+                <div class="results" ng-if="r.roll_call === v.roll_call">
+                       <p>
+                    <b>{{r.result}}</b>
+                    <br> Total Vote: Yes = <span class="y">{{r.total.yes}}</span> No = <span class="n">{{r.total.no}}</span> 
+                    <!-- <br> Democrat Vote: No = {{r.democratic.no}} Yes = {{r.democratic.yes}}
+                    <br> Republican Vote: No = {{r.republican.no}} Yes = {{r.republican.yes}} -->
+                    <br>
+                </p>
+                <div ng-if="r.roll_call === v.roll_call">
+                    <canvas id="pie" class="chart chart-pie" chart-data="[(r.democratic.yes | num),(r.republican.yes | num),(r.democratic.no | num),(r.republican.no | num),(r.total.not_voting | num)]" chart-labels="vm.labels" chart-options="vm.optionsC" style="height:80px; width: 280px;"></canvas>
+                </div> 
+                </div>
+            
                 <p ng-if="v.active && vm.err">Total results for this vote are not available.</p>
             </div>
         </md-card>

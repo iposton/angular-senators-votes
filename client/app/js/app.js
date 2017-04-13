@@ -1,4 +1,4 @@
- angular.module('MyApp', ['ngMaterial', 'main', 'drop-ng', 'ngMessages', 'feeds'])
+ angular.module('MyApp', ['ngMaterial', 'main', 'drop-ng', 'ngMessages', 'feeds', 'chart.js'])
      .config(function($mdIconProvider, $mdThemingProvider) {
 
          $mdIconProvider.icon('share', '../assets/svg/share.svg', 24)
@@ -15,4 +15,16 @@
              .primaryPalette('blue')
              .accentPalette('red');
 
-     });
+
+     }).filter('num', function() {
+    return function(input) {
+      return parseInt(input, 10);
+    };
+}) // Optional configuration
+  .config(['ChartJsProvider', function (ChartJsProvider) {
+    // Configure all charts
+    ChartJsProvider.setOptions({
+      chartColors: ['#85c1e9', '#eb6f62', '#447393', '#aa4940', '#DCDCDC']
+    });
+    
+  }]);
