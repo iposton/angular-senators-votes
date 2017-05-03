@@ -30,7 +30,7 @@ md-content.demo .img-box {
 <div layout="row" layout-sm="column" layout-align="space-around" ng-if="gettingvotes">
     <md-progress-circular md-mode="indeterminate" class="md-warn md-hue-3"></md-progress-circular>
 </div>
-<div layout="column" flex class="vote-content" ng-if="selected && !gettingvotes">
+<div layout="column" flex class="vote-content card-width" ng-if="selected && !gettingvotes">
     <div ng-view flex>
         <md-card ng-repeat="v in votes" ng-click="" ng-class="{active: v.active}" ng-init="vm.selectVotes(v); vm.setActive(v, votes); vm.voteResults(v, vm.results)" ng-if="
         v.date === vm.date">

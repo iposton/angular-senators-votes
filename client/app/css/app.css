@@ -576,8 +576,8 @@ button {
     color: #fff;
 }*/
 
-md-card {
-  width: ;
+.card-width {
+ width: 95%;
 }
 
 .vote-content {
