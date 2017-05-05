@@ -1,4 +1,4 @@
- angular.module('MyApp', ['ngMaterial', 'main', 'drop-ng', 'ngMessages', 'feeds', 'chart.js'])
+ angular.module('MyApp', ['ngMaterial', 'main', 'drop-ng', 'ngMessages', 'chart.js'])
      .config(function($mdIconProvider, $mdThemingProvider) {
 
          $mdIconProvider.icon('share', '../assets/svg/share.svg', 24)
