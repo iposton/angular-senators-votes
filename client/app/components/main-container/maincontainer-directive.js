@@ -24,13 +24,11 @@
 
                 function party(p) {
                     // console.log($scope.selected);
-                    if (self.selParty == 'all') {
+                    if (self.selParty === 'all') {
                         return true;
                     }
-                    return self.selParty == p;
-                };
-
-
+                    return self.selParty === p;
+                }
 
                 $http({
                     method: 'get',
@@ -91,9 +89,7 @@
                     self.selected = senator;
                     $mdBottomSheet.hide(self.selected);
                     $mdSidenav('left').toggle();
-                    // self.getTweet();
                     self.getVotes();
-
 
                 }
 

@@ -49,7 +49,7 @@
                     };
 
                     $mdPanel.open(config);
-                };
+                }
 
                 function PanelDialogCtrl(mdPanelRef) {
                     var self = this;

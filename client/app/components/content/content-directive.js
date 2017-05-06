@@ -29,7 +29,7 @@
                 self.makeContact = makeContact;
                 self.voteResults = voteResults;
                 self.selectVotes = selectVotes;
-                self.setActive = setActive;
+               
 
                 // WATCH THE MD-DATEPICKER SELECTED DATE 
                 $scope.$watch('dateObj', function(newVal, oldVal) {
@@ -40,7 +40,7 @@
                     self.date = $filter('date')(new Date(newVal.myDate), "yyyy-MM-dd");
                     //console.log(self.date);
 
-                    if (newVal != oldVal) {
+                    if (newVal !== oldVal) {
                         // IF HAS NO VOTES TRUE SHOW NO VOTE MESSAGE 
                         self.haveNoVotes = true;
                         //console.log(self.hasNoVotes, "reset has not votes watching date change")
@@ -128,23 +128,10 @@
 
                 function selectVotes(vote) {
                     self.selectedVote = vote;
-                    //$mdBottomSheet.hide(self.selected);
-                    //$mdSidenav('left').toggle();
-                    //self.getVotes();
 
                 }
 
-                function setActive(item, list) {
-
-                    list.some(function(item) {
-
-                        if (item.active) {
-                            item.active = false;
-                        }
-                    });
-                    item.active = true;
-
-                }
+               
 
                 // PIE CHART OPTIONS
                 self.labels = ["D (Yes)", "R (Yes)", "D (No)", "R (No)", "Not Voting"];

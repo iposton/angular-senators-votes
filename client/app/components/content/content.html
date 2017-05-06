@@ -32,7 +32,7 @@ md-content.demo .img-box {
 </div>
 <div layout="column" flex class="vote-content card-width" ng-if="selected && !gettingvotes">
     <div ng-view flex>
-        <md-card ng-repeat="v in votes" ng-click="" ng-class="{active: v.active}" ng-init="vm.selectVotes(v); vm.setActive(v, votes); vm.voteResults(v, vm.results)" ng-if="
+        <md-card ng-repeat="v in votes" ng-init="vm.selectVotes(v); vm.voteResults(v, vm.results)" ng-if="
         v.date === vm.date">
             <p ng-if="vm.isLoading">{{v.description}}
                 <br>{{selected.first_name + " " + selected.last_name}} Voted <span ng-class="{'no': v.position == 'No', 'yes': v.position == 'Yes'}">{{v.position}}</span> {{v.question}}</p>

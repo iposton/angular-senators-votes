@@ -225,11 +225,6 @@ h1 {
 }
 
 
-/*md-list-item .active {
-    background-color: rgba(158, 158, 158, 0.2);
-}
-*/
-
 md-list-item .active.republican {
     background-color: rgba(231, 76, 60, 0.8);
     color: #FFF;
@@ -570,11 +565,6 @@ button {
     overflow: auto;
 }
 
-
-/*md-card.active {
-    background-color: #ccc;
-    color: #fff;
-}*/
 
 .card-width {
  width: 95%;
