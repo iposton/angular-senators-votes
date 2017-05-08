@@ -35,14 +35,12 @@
                     url: 'https://api.propublica.org/congress/v1/115/senate/members.json',
                     headers: { 'X-API-KEY': API_KEY }
                 }).then(function(response) {
-
-
+                    //Get data from the response and print it to the console.
                     console.log(response.data.results[0].members, ' members');
+                    //Define the array of data for ng-repeat in the html
                     self.senators = response.data.results[0].members;
-
-                    // the success method called
-
                 }).catch(function(error) {
+                    //If error throw error
                     console.error("Error with GET request", error);
                 })
 
