@@ -16,8 +16,18 @@ This app can help explain how to fetch data using [Angular's $http](https://docs
 ### Software used for this application
 * Angular.js (version 1.5.8) 
 * Node.js (version 6.0.0)     
-* [angular-material](version master)
+* [angular-material](https://github.com/angular/material/tree/v1.1.4) (version master)
 * [angular-chart.js](https://jtblin.github.io/angular-chart.js/) (1.1.1)
 * chart.js (2.5.0)
 * Heroku [Set up a free account ](https://www.heroku.com/)
 * [ProPublica Congress API](https://www.propublica.org/datastore/api/propublica-congress-api)
+
+### Clone and serve this app
+* First you will need a ProPublica Congress Api Key in order to hit the ProPublica endpoint to get it to return data.
+* REQUEST AN API KEY at this link. You have to submit your name and email to get a key sent to your email. `I intend to use this for a...` choose the personal option.
+* It might take 24 hours to get an api key. The api key is used in two places in this code base. `maincontainer-directive.js` and in `content-directive.js`. See <b>Get data from api with $http</b> below. 
+* When the api keys are in place clone this repo and run <code>npm install</code> and <code>bower install</code> then run <code>npm start</code> to serve the app on `localhost:8082`.
+
+### Get data from api with $http
+
+The first thing I want to do in this app is get a list of all the state senators in congress that vote on bills. I used the [ProPublica api docs](https://propublica.github.io/congress-api-docs/#members) to find the correct endpoint to get all senators and their special id to get their voting history later.   
