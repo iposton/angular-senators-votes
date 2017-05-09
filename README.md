@@ -54,7 +54,7 @@ function mainContainerCtrl($http) {
 }
 
 ``` 
-This is a breakdown of the above code. The $http service requires me to define what kind of http method this is in this case it's a GET request. Then I must define the endpoint (url) in where to send this get request to. ProPublica requires the api key to be sent with the headers option and it must be exactly like this `'X-API-KEY': 'fakekey123xcvbnm123456999'` in order to get data sent back to my app. When the $http options get the data then the data comes back as a param called response. I had to dig into the response to get the data I was looking for which is an array of all the 100 state senators. The array is then defined so it can be rendered in the html with ng-repeat. 
+This is a breakdown of the above code. The $http service requires me to define what kind of http method this is in this case it's a GET request. Then I must define the endpoint (url) in where to send this get request to. ProPublica requires the api key to be sent with the headers option and it must be exactly like this `'X-API-KEY': 'fakekey123xcvbnm123456999'` in order to get data sent back to my app. If the $http gets the data successfully from the api `then()`  is called and the promise is fulfilled and the data is past in as a response (response = data object). If the $http can not get the data back from the api the code will throw an error. I had to access the senator property of the response object that came back from the api. By running `console.log(response.data.results[0].members, ' members')` I can see the array of senators in the js console of the chrome browser. This code means `response.data.results[0].members` in response there is data in data there is results in results there is the first array with a key of members which is the array of senator objects and that is what I want ng-repeat to iterate over in the html. This array is then defined to a varibale called `self.senators` so it can be rendered in the html with ng-repeat as `vm.senators`. 
 
 ```html
 
@@ -66,3 +66,57 @@ This is a breakdown of the above code. The $http service requires me to define w
 </ul>
 
 ```
+
+To have a better look of the data object in this case `vm.senators` use the `<pre>` tag in the html file. 
+
+```html
+
+ <pre>
+    {{vm.senators | json}}
+ </pre>
+
+```
+
+### Use ng-init with ng-repeat to run multiple functions
+In this app I needed to get all the bills voted on and the voting results of each bill that each state senator has voted on since the start of 2017. With this api first I get a senator by id and pass that into the endpoint that will return all the bills that this senator voted on. 
+
+```js
+
+//mainContainerCtrl
+
+var self = this;
+
+// Set global
+self.selected = null;
+
+// Define functions
+self.selectSenator = selectSenator;
+self.getVotes = getVotes;
+
+//Attach ng-click to the html list of senators and pass a selected senator
+//into the function to get a specific id from a senator
+//Then call the getVotes function
+function selectSenator(senator) {
+    self.selected = senator;
+    self.getVotes();
+}
+
+function getVotes() {
+    $http({
+        method: 'get',
+        url: 'https://api.propublica.org/congress/v1/members/' + self.selected.id + '/votes.json',
+        headers: { 'X-API-KEY': 'fakekey123xcvbnm123456999' }
+    }).then(function(response) {
+        console.log(response.data.results[0].votes, ' votes');
+        self.votes = response.data.results[0].votes;
+
+    }).catch(function(error) {
+        console.error("Error with GET request", error);
+    })
+}
+
+``` 
+
+Now that I defined selected I can acess the selected id with `self.selected.id`. To get votes the ProPublica endpoint requires the id of the senator. I can use the variable `self.selected.id` and concatenate it into the endpoint when the getVotes function is called. The endpoint will look like this `'https://api.propublica.org/congress/v1/members/' + self.selected.id + '/votes.json'`. The response will have the bills voted on here `response.data.results[0].votes`.
+
+

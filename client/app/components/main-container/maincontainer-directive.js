@@ -51,7 +51,7 @@
 
                 self.getVotes = getVotes;
 
-                function getVotes(selected) {
+                function getVotes() {
                     // self.gettingvotes = true;
                     $http({
                         method: 'get',
