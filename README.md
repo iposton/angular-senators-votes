@@ -80,7 +80,7 @@ To have a better look of the data object in this case `vm.senators` use the `<pr
 ```
 
 ### Use ng-init with ng-repeat to run multiple functions
-In this app I needed to get all the bills voted on and the voting results of each bill that each state senator has voted on since the start of 2017. With this api first I get a senator by id and pass that into the endpoint that will return all the bills that this senator voted on. 
+In this app I need to get all the bills voted on and the voting results of each bill that each state senator has voted on since the start of 2017. With this api first I get a senator by id and pass that into the endpoint that will return all the bills that this senator voted on. 
 
 ```js
 
@@ -117,8 +117,65 @@ function getVotes() {
     })
 }
 
-``` 
+```html
 
-Now that I defined selected I can acess the selected id with `self.selected.id`. To get votes the ProPublica endpoint requires the id of the senator. I can use the variable `self.selected.id` and concatenate it into the endpoint when the getVotes function is called. The endpoint will look like this `'https://api.propublica.org/congress/v1/members/' + self.selected.id + '/votes.json'`. The response will have the bills voted on here `response.data.results[0].votes`.
+<!-- main-container.html -->
+
+<ul ng-repeat="s in vm.senators">
+  <!-- construct a string to show some of the values from the keys found in vm.senators -->
+  <li><a ng-click="vm.selectSenator(s)">{{s.first_name + ' ' + s.last_name + "("+s.party+"-"+s.state+")"}}</a></li>
+</ul>
+
+
+```
+Now that I defined selected I can access the selected id with `self.selected.id`. To get votes the ProPublica endpoint requires the id of the senator. I can use the variable `self.selected.id` and concatenate it into the endpoint when the getVotes function is called. The endpoint will look like this `'https://api.propublica.org/congress/v1/members/' + self.selected.id + '/votes.json'`. The response will have the bills voted on here `response.data.results[0].votes`. This array is then defined to a variable called `self.votes` so it can be rendered in the html with ng-repeat as `vm.votes`.
+
+When ng-repeat parses the vote array you can use ng-init to run a function as many times as the length of the vote array. Passing in a single vote to the function so that you can get the results for that function from the api. The function `voteResults(v)` takes the vote and gets voting results with `v.vote_uri` as the endpoint. The results are pushed to a custom array called `self.resultsArray` which is then rendered with another ng-repeat. Keep the results inline with the votes array by checking the have the same roll_call number which is the vote id essentially `ng-if="r.roll_call === v.roll_call"`.
+
+```html
+
+<div ng-repeat="v in votes" ng-init="vm.voteResults(v)">
+<div ng-repeat="r in vm.resultsArr">
+  <p ng-if="r.roll_call === v.roll_call">
+      {{r.description}}<br>
+      {{selected.first_name + " " + selected.last_name}} Voted {{v.position}} {{v.question}}<br>
+      <b>{{r.result}}</b>
+      <br> Total Vote: Yes = <span class="y">{{r.total.yes}}</span> No = <span class="n">{{r.total.no}}</span> 
+      <br> Democrat Vote: No = {{r.democratic.no}} Yes = {{r.democratic.yes}}
+      <br> Republican Vote: No = {{r.republican.no}} Yes = {{r.republican.yes}}
+  </p>
+</div>
+</div>
+
+```
+
+```js
+
+//THIS FUNCTION GETS CALLED AS MANY TIMES
+//AS THE LENGTH OF THE SELF.VOTES ARRAY
+//WITH NG-REPEAT AND NG-INIT
+function voteResults(v) {
+  self.resultsArr = [];
+  //DEFINE VOTE URI WITH ENDPOINT FOR RESULTS
+  var voteUri = v.vote_uri;
+  $http({
+      method: 'get',
+      url: voteUri,
+      headers: { 'X-API-KEY': API_KEY }
+  }).then(function(response) {
+      self.results = response.data.results.votes.vote;
+      //AS NG-REPEAT ITTERATES OVER THE VOTE ARRAY 
+      //PUSH RESULTS TO RESULTS ARRAY
+      self.resultsArr.push(self.results);
+      console.log(self.resultsArr, "results array");
+
+  }).catch(function(error) {
+      console.error("Error with GET request", error);
+
+  })
+
+}
+
+``` 
 
 
