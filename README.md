@@ -1,10 +1,10 @@
 # Angular 1.x, ProPublica API and Heroku - <a href="https://senators-votes.herokuapp.com/">Demo</a> <a href="https://codeclimate.com/github/iposton/angular-senators-votes"><img src="https://codeclimate.com/github/iposton/angular-senators-votes/badges/gpa.svg" /></a>
-This is a single page app which uses the propublica-congress-api to get up to date voting results of all the state senators. 
+This is a single page app which uses the [ProPublica Congress API](https://www.propublica.org/datastore/api/propublica-congress-api) to get up to date voting results of all the state senators. 
 
 ### Description
 This [application](https://senators-votes.herokuapp.com/) is made with angular.js (version 1.5.8) and the most current version of angular-material. This SPA app is hosted for free on Heroku (cloud application platform). The data is sourced through the [propublica-congress-api](https://www.propublica.org/datastore/api/propublica-congress-api).
 
-This app can help explain how to fetch data using [Angular's $http](https://docs.angularjs.org/api/ng/service/$http) service from a robust api and then use data-visualization libraries (angular-chart.js) to present the the returned results.  
+This app can help explain how to fetch data using [Angular's $http](https://docs.angularjs.org/api/ng/service/$http) service from a robust api and then use data-visualization libraries (angular-chart.js) to present the returned results.  
 
 ### You can learn this
 * Use the $http service to connect to an api and get data returned in milliseconds. 
@@ -29,10 +29,12 @@ This app can help explain how to fetch data using [Angular's $http](https://docs
 * When the api keys are in place clone this repo and run <code>npm install</code> and <code>bower install</code> then run <code>npm start</code> to serve the app on `localhost:8082`.
 
 ### Get data from api with $http
-The first thing I want to do in this app is get a list of all the state senators in congress that vote on bills. I used the [ProPublica api docs](https://propublica.github.io/congress-api-docs/#members) to find the correct endpoint to get all senators and their special id to get their voting history. I am able to use Angular's $http service to get send a GET request for data using this endpoint `https://api.propublica.org/congress/v1/115/senate/members.json` found in the api document. The $http service is a great service provided by Angular the alternative to this is using a node.js server to send a get request which I found very complicated and a much harder way to get and render data from an api. 
+The first thing I want to do in this app is get a list of all the state senators in congress. I used the [ProPublica api docs](https://propublica.github.io/congress-api-docs/#members) to find the correct endpoint to get all senators. I am able to use Angular's $http service to send a GET request for data using this endpoint `https://api.propublica.org/congress/v1/115/senate/members.json` found in the api's documentation. The $http service is a great service provided by Angular. The alternative to $http is using a node.js server to send a get request which I found to be a difficult way to get and render data on the front end. 
 
 ```js
 
+//You will need to submit a request for an 
+//api key at https://www.propublica.org/datastore/api/propublica-congress-api 
 function mainContainerCtrl($http) {
 
     var self = this;
@@ -54,14 +56,14 @@ function mainContainerCtrl($http) {
 }
 
 ``` 
-This is a breakdown of the above code. The $http service requires me to define what kind of http method this is in this case it's a GET request. Then I must define the endpoint (url) in where to send this get request to. ProPublica requires the api key to be sent with the headers option and it must be exactly like this `'X-API-KEY': 'fakekey123xcvbnm123456999'` in order to get data sent back to my app. If the $http gets the data successfully from the api `then()`  is called and the promise is fulfilled and the data is past in as a response (response = data object). If the $http can not get the data back from the api the code will throw an error. I had to access the senator property of the response object that came back from the api. By running `console.log(response.data.results[0].members, ' members')` I can see the array of senators in the js console of the chrome browser. This code means `response.data.results[0].members` in response there is data in data there is results in results there is the first array with a key of members which is the array of senator objects and that is what I want ng-repeat to iterate over in the html. This array is then defined to a varibale called `self.senators` so it can be rendered in the html with ng-repeat as `vm.senators`. 
+This is a breakdown of the above code. The $http service requires me to define what kind of http method this is in this case it's a GET request. Then I must define the endpoint (url) in where to send this get request to. ProPublica requires the api key to be sent with the headers option and it must be exactly like this `'X-API-KEY': 'fakekey123xcvbnm123456999'` in order to get data sent back to my app. If the $http service gets the data successfully from the api `then()`  is called and the promise is fulfilled and the data is past in as a response (response = data object). If the $http service can not get the data back from the api the code will throw an error. I had to access the senator property of the response object that came back from the api. By running `console.log(response.data.results[0].members, ' members')` I can see the array of senators in the js console of the chrome browser. This code means `response.data.results[0].members` in response there is data in data there is results in results there is the first array with a key of members which is the array of senator objects and that is what I want ng-repeat to iterate over in the html. This array is then defined to a varibale called `self.senators` so it can be rendered in the html with ng-repeat as `vm.senators`. 
 
 ```html
 
 <!-- main-container.html -->
 
 <ul ng-repeat="s in vm.senators">
-  <!-- comstruct a string to show some of the values from the keys found in vm.senators -->
+  <!-- construct a string to show some of the values from the keys found in vm.senators -->
   <li>{{s.first_name + ' ' + s.last_name + "("+s.party+"-"+s.state+")"}}</li>
 </ul>
 
