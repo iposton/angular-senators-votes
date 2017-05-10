@@ -117,6 +117,8 @@ function getVotes() {
     })
 }
 
+```
+
 ```html
 
 <!-- main-container.html -->
@@ -125,7 +127,6 @@ function getVotes() {
   <!-- construct a string to show some of the values from the keys found in vm.senators -->
   <li><a ng-click="vm.selectSenator(s)">{{s.first_name + ' ' + s.last_name + "("+s.party+"-"+s.state+")"}}</a></li>
 </ul>
-
 
 ```
 Now that I defined selected I can access the selected id with `self.selected.id`. To get votes the ProPublica endpoint requires the id of the senator. I can use the variable `self.selected.id` and concatenate it into the endpoint when the getVotes function is called. The endpoint will look like this `'https://api.propublica.org/congress/v1/members/' + self.selected.id + '/votes.json'`. The response will have the bills voted on here `response.data.results[0].votes`. This array is then defined to a variable called `self.votes` so it can be rendered in the html with ng-repeat as `vm.votes`.
