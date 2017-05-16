@@ -179,13 +179,15 @@ function voteResults(v) {
 
 ``` 
 ### Change css style dynamically 
-I want to use a css style according to a property value of the senator data. I want to have a blue gradient over the image of a senator belonging to the democratic party and have a red gradient over a picture of a senator belonging to the republican party. I use `ng-class` to add a class depending on a senator's party. Then I to create an overlay over a background image which I need to render from the css style. The background image has a dynamic property concatenated inside the string of the url attribute. So I needed to find a way to get the `{{selected.id}}` value into a style tag to make sure the correct url got the correct overlay color according to the senator's party. I used a custom filter to parse the style inside style tags at the top of the html document.
+I want to use a css style according to a property value of the senator data. I want to have a blue gradient over the image of a senator belonging to the democratic party and have a red gradient over a picture of a senator belonging to the republican party. I use `ng-class` to add a class depending on a senator's party. Then I to create an overlay over a background image which I need to render from the css style. The background image has a dynamic property concatenated inside the string of the url attribute. So I needed to find a way to get the `{{selected.id}}` value into a style tag to make sure the correct url got the correct overlay color according to the senator's party. I created a custom directive to parse the data inside style tags at the top of the html document.
 
 ```js
 
 //A CUSTOM DIRECTIVE FOR USING INLINE CSS ACCORDING
 //TO DYNAMIC {{data}} AND NG-CLASS
-.directive('parseStyle', function($interpolate) {
+angular
+ .module("app")
+ .directive('parseStyle', function($interpolate) {
   return function(scope, elem) {
       var exp = $interpolate(elem.html()),
           watchFunc = function() {
@@ -202,13 +204,13 @@ I want to use a css style according to a property value of the senator data. I w
 
 ```html
 
-//NG-CLASS WILL APPLY A CLASS ACCORDING 
-//TO THE PARTY OF SELECTED SENATOR
-<div ng-class="{'repub': vm.selected.party == 'R', 'demo': vm.selected.party == 'D'}">
+<!-- NG-CLASS WILL APPLY A CLASS ACCORDING 
+TO THE PARTY OF SELECTED SENATOR -->
+<div ng-class="{'repub': vm.selected.party === 'R', 'demo': vm.selected.party === 'D'}">
 
-  //PARSE STYLE DIRECTIVE IS INSTERED IN THE STYLE TAG
-  //THEN THE CSS CAN PARSE ANGULAR STRING DATA {{selected.id}}
-  //THIS WILL GET THE CORRECT URL FOR THE BACKGROUND ATTRIBUTE ACCORDING TO NG-CLASS
+  <!-- PARSE STYLE DIRECTIVE IS INSTERED IN THE STYLE TAG
+  THEN THE CSS CAN PARSE ANGULAR STRING DATA {{selected.id}}
+  THIS WILL GET THE CORRECT URL FOR THE BACKGROUND ATTRIBUTE ACCORDING TO NG-CLASS -->
   <style parse-style>
   md-content.repub .img-box {
       background: linear-gradient(rgba(231, 76, 60, 0.3), rgba(231, 76, 60, 0.3)),
@@ -221,7 +223,9 @@ I want to use a css style according to a property value of the senator data. I w
   }
   </style>
 
-  <div class="img-box avatar"></div>
+  <!-- THE BACKGROUND STYLE WORKS INSIDE THIS DIV -->
+  <div class="img-box"></div>
+
   <h2>{{selected.first_name + " " + selected.last_name + "("+selected.party+"-"+selected.state+")"}}</h2>
 
 </div>
