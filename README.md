@@ -131,7 +131,7 @@ function getVotes() {
 ```
 Now that I defined selected I can access the selected id with `self.selected.id`. To get votes the ProPublica endpoint requires the id of the senator. I can use the variable `self.selected.id` and concatenate it into the endpoint when the getVotes function is called. The endpoint will look like this `'https://api.propublica.org/congress/v1/members/' + self.selected.id + '/votes.json'`. The response will have the bills voted on here `response.data.results[0].votes`. This array is then defined to a variable called `self.votes` so it can be rendered in the html with ng-repeat as `vm.votes`.
 
-When ng-repeat parses the vote array you can use ng-init to run a function as many times as the length of the vote array. Passing in a single vote to the function so that you can get the results for that function from the api. The function `voteResults(v)` takes the vote and gets voting results with `v.vote_uri` as the endpoint. The results are pushed to a custom array called `self.resultsArray` which is then rendered with another ng-repeat. Keep the results inline with the votes array by checking the have the same roll_call number which is the vote id essentially `ng-if="r.roll_call === v.roll_call"`.
+When ng-repeat parses the vote array you can use ng-init to run a function as many times as the length of the vote array. Passing in a single vote to the function so that you can get the results for that function from the api. The function `voteResults(v)` takes the vote and gets voting results with `v.vote_uri` as the endpoint. The results are pushed to a custom array called `self.resultsArray` which is then rendered with another ng-repeat. Keep the results inline with the votes array by checking they have the same roll_call number which is the vote id essentially `ng-if="r.roll_call === v.roll_call"`.
 
 ```html
 
@@ -178,5 +178,53 @@ function voteResults(v) {
 }
 
 ``` 
+### Change css style dynamically 
+I want to use a css style according to a property value of the senator data. I want to have a blue gradient over the image of a senator belonging to the democratic party and have a red gradient over a picture of a senator belonging to the republican party. I use `ng-class` to add a class depending on a senator's party. Then I to create an overlay over a background image which I need to render from the css style. The background image has a dynamic property concatenated inside the string of the url attribute. So I needed to find a way to get the `{{selected.id}}` value into a style tag to make sure the correct url got the correct overlay color according to the senator's party. I used a custom filter to parse the style inside style tags at the top of the html document.
 
+```js
+
+//A CUSTOM DIRECTIVE FOR USING INLINE CSS ACCORDING
+//TO DYNAMIC {{data}} AND NG-CLASS
+.directive('parseStyle', function($interpolate) {
+  return function(scope, elem) {
+      var exp = $interpolate(elem.html()),
+          watchFunc = function() {
+              return exp(scope);
+          };
+
+      scope.$watch(watchFunc, function(html) {
+          elem.html(html);
+      });
+  };
+});
+
+``` 
+
+```html
+
+//NG-CLASS WILL APPLY A CLASS ACCORDING 
+//TO THE PARTY OF SELECTED SENATOR
+<div ng-class="{'repub': vm.selected.party == 'R', 'demo': vm.selected.party == 'D'}">
+
+  //PARSE STYLE DIRECTIVE IS INSTERED IN THE STYLE TAG
+  //THEN THE CSS CAN PARSE ANGULAR STRING DATA {{selected.id}}
+  //THIS WILL GET THE CORRECT URL FOR THE BACKGROUND ATTRIBUTE ACCORDING TO NG-CLASS
+  <style parse-style>
+  md-content.repub .img-box {
+      background: linear-gradient(rgba(231, 76, 60, 0.3), rgba(231, 76, 60, 0.3)),
+      url(assets/img/senators/{{selected.id}}.jpg);
+  }
+
+  md-content.demo .img-box {
+      background: linear-gradient(rgba(52, 152, 219, 0.3), rgba(52, 152, 219, 0.3)),
+      url(assets/img/senators/{{selected.id}}.jpg);
+  }
+  </style>
+
+  <div class="img-box avatar"></div>
+  <h2>{{selected.first_name + " " + selected.last_name + "("+selected.party+"-"+selected.state+")"}}</h2>
+
+</div>
+
+```
 

@@ -654,16 +654,19 @@ button {
   margin: 5px 0 0 0;
 }
 
-.results span.y { 
-  background: rgba(92, 184, 92, 0.9);  
+.results span {
   color: #fff; 
   border-radius: 3px;
+  padding: 2px;  
+}
+
+.results span.y { 
+  background: rgba(92, 184, 92, 0.9);  
+  
 }
 
 .results span.n { 
   background: rgba(231, 76, 60, 0.9);
-  color: #fff; 
-  border-radius: 3px;
 }
 
 
