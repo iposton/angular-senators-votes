@@ -302,10 +302,10 @@ $scope.$watch('dateObj', function(newVal, oldVal) {
 <md-card ng-repeat="v in votes" ng-init="vm.selectVotes(v); vm.voteResults(v)" ng-if="v.date === vm.date">            
   <div ng-repeat="r in vm.resultsArr">
     <p ng-if="r.roll_call === v.roll_call">{{r.description}}
-    <br>{{selected.first_name + " " + selected.last_name}} Voted <span ng-class="{'no': v.position == 'No', 'yes': v.position == 'Yes'}">{{v.position}}</span> {{v.question}}</p>
+    <br>{{selected.first_name + " " + selected.last_name}} Voted {{v.position}} {{v.question}}</p>
   <div class="results" ng-if="r.roll_call === v.roll_call">
     <p><b>{{r.result}}</b>
-    <br> Total Vote: Yes = <span class="y">{{r.total.yes}}</span> No = <span class="n">{{r.total.no}}</span> 
+    <br> Total Vote: Yes = No = {{r.total.no}}
     <br> Democrat Vote: No = {{r.democratic.no}} Yes = {{r.democratic.yes}}
     <br> Republican Vote: No = {{r.republican.no}} Yes = {{r.republican.yes}}
     <br></p>
