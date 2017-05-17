@@ -232,3 +232,85 @@ TO THE PARTY OF SELECTED SENATOR -->
 
 ```
 
+### Setup Angular-Material's md-datepicker
+When I ask the congress api for a senator's vote history it returns 100 objects which is a lot of content to scroll through. Showing the votes by a selected date would be a better user experience. You can allow a user to select a date by using an amazing date-picker feature built into the angular-material library. 
+
+In this project I am using the most up-to-date version of angular-material which is basically a library of css and javascript that works well with angular.js apps to help give them a clean look and responsive design. `bower install angular-material --save` and link the css library and js library in index.html. 
+
+```html
+
+<!-- index.html -->
+<link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
+<script src="bower_components/angular-material/angular-material.js"></script>
+
+```
+
+Setting up the date picker is easy to do. Just add the angular-material directive in the html file to activate the date picker feature. 
+
+```html
+
+<md-datepicker ng-model="dateObj.myDate" md-placeholder="Enter date" md-min-date="vm.minDate" md-max-date="vm.maxDate"></md-datepicker>
+
+```
+
+In this example I defined ng-model with a value and I set a minimum date and maximum date to avoid allowing a user to select a date outside that limit. This date picker directive is basically an input that takes a date value when I a user either selects it or types it in. I want my date picker to show todays date as soon as the page loads and I do this by attaching todays date to the ng-model of the date-picker.
+
+```js
+
+//DEFINE CURRENT DATE AND OBJECT FOR MD-DATEPICKER'S NG-MODEL
+var nd = new Date();
+
+$scope.dateObj = {
+    myDate: nd
+}
+
+//DEFINE MIN DATE AND MAX DATE
+self.minDate = new Date(
+    new Date().getFullYear(),
+    new Date().getMonth() - 2,
+    new Date().getDate()
+);
+
+self.maxDate = new Date(
+    new Date().getFullYear(),
+    new Date().getMonth(),
+    new Date().getDate()
+);
+
+```
+
+For this project I need the value of the selected date to be the same date attached to the vote object so that this app will show vote results that happened on the selected date. I attached a watch method to scope (`$scope.$watch`) to capture the value of the selected date then I format it to match the way the date is formatted in the vote object. I can use a ng-if condition to show results matching the selected date in the html. If `ng-if="v.date === vm.date"` is true then it will show the selected date vote results. 
+
+```js
+
+//WATCH THE MD-DATEPICKER SELECTED DATE
+//BY PASSING IN THE dateObj 
+//TO GET THE newVal,myDate WHEN IT CHANGES 
+$scope.$watch('dateObj', function(newVal, oldVal) {
+    if (!newVal.myDate) {
+        return false;
+    }
+    //FORMAT SELECTED DATE FOR NG-IF CONDITION TO 
+    //SHOW VOTING DATA WITH THE SAME DATE
+    self.date = $filter('date')(new Date(newVal.myDate), "yyyy-MM-dd");
+}, true);
+
+```
+
+```html
+
+<md-card ng-repeat="v in votes" ng-init="vm.selectVotes(v); vm.voteResults(v)" ng-if="v.date === vm.date">            
+  <div ng-repeat="r in vm.resultsArr">
+    <p ng-if="r.roll_call === v.roll_call">{{r.description}}
+    <br>{{selected.first_name + " " + selected.last_name}} Voted <span ng-class="{'no': v.position == 'No', 'yes': v.position == 'Yes'}">{{v.position}}</span> {{v.question}}</p>
+  <div class="results" ng-if="r.roll_call === v.roll_call">
+    <p><b>{{r.result}}</b>
+    <br> Total Vote: Yes = <span class="y">{{r.total.yes}}</span> No = <span class="n">{{r.total.no}}</span> 
+    <br> Democrat Vote: No = {{r.democratic.no}} Yes = {{r.democratic.yes}}
+    <br> Republican Vote: No = {{r.republican.no}} Yes = {{r.republican.yes}}
+    <br></p>
+  </div>
+</md-card>
+
+```
+
