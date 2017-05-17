@@ -61,7 +61,6 @@ This is a breakdown of the above code. The $http service requires me to define w
 ```html
 
 <!-- main-container.html -->
-
 <ul ng-repeat="s in vm.senators">
   <!-- construct a string to show some of the values from the keys found in vm.senators -->
   <li>{{s.first_name + ' ' + s.last_name + "("+s.party+"-"+s.state+")"}}</li>
@@ -84,8 +83,7 @@ In this app I need to get all the bills voted on and the voting results of each 
 
 ```js
 
-//mainContainerCtrl
-
+//mainContainerCtrl.js
 var self = this;
 
 // Set global
@@ -122,7 +120,6 @@ function getVotes() {
 ```html
 
 <!-- main-container.html -->
-
 <ul ng-repeat="s in vm.senators">
   <!-- construct a string to show some of the values from the keys found in vm.senators -->
   <li><a ng-click="vm.selectSenator(s)">{{s.first_name + ' ' + s.last_name + "("+s.party+"-"+s.state+")"}}</a></li>
@@ -135,8 +132,7 @@ When ng-repeat parses the vote array you can use ng-init to run a function as ma
 
 ```html
 
-<!-- //content.html -->
-
+<!-- content.html -->
 <div ng-repeat="v in votes" ng-init="vm.voteResults(v)">
 <div ng-repeat="r in vm.resultsArr">
   <p ng-if="r.roll_call === v.roll_call">
@@ -155,7 +151,6 @@ When ng-repeat parses the vote array you can use ng-init to run a function as ma
 ```js
 
 //contentCtrl.js
-
 //THIS FUNCTION GETS CALLED AS MANY TIMES
 //AS THE LENGTH OF THE SELF.VOTES ARRAY
 //WITH NG-REPEAT AND NG-INIT
@@ -209,7 +204,6 @@ angular
 ```html
 
 <!-- content.html -->
-
 <!-- NG-CLASS WILL APPLY A CLASS ACCORDING 
 TO THE PARTY OF SELECTED SENATOR -->
 <div ng-class="{'repub': vm.selected.party === 'R', 'demo': vm.selected.party === 'D'}">
@@ -254,7 +248,6 @@ In this project I am using the most up-to-date version of angular-material which
 ```js
 
 //app.js
-
 angular.module('app', ['ngMaterial']);
 
 ```
@@ -274,7 +267,6 @@ In this example I defined ng-model with a value and I set a minimum date and max
 ```js
 
 //contentCtrl.js
-
 //DEFINE CURRENT DATE AND OBJECT FOR MD-DATEPICKER'S NG-MODEL
 var nd = new Date();
 
@@ -319,8 +311,7 @@ $scope.$watch('dateObj', function(newVal, oldVal) {
 
 ```html
 
-//content.html
-
+<!-- content.html -->
 <md-card ng-repeat="v in votes" ng-init="vm.selectVotes(v); vm.voteResults(v)" ng-if="v.date === vm.date">            
   <div ng-repeat="r in vm.resultsArr">
     <p ng-if="r.roll_call === v.roll_call">{{r.description}}
@@ -350,7 +341,6 @@ In this project I want to show the congress data in a pie chart to show another 
 ```js
 
 //app.js
-
 angular.module('app', ['chart.js']);
 
 ```
@@ -360,7 +350,6 @@ First I want to define the settings of the pie chart in the controller. In the p
 ```js
 
 //contentCtrl.js
-
 var self = this;
 
 // PIE CHART SETTINGS
@@ -384,8 +373,7 @@ Angular-chart.js uses `<canvas></canvas>` to render the chart in the html. And t
 
 ```html
 
-//content.html
-
+<!-- content.html -->
 <md-card ng-repeat="v in votes" ng-init="vm.selectVotes(v); vm.voteResults(v)" ng-if="v.date === vm.date">            
   <div ng-repeat="r in vm.resultsArr">
     <p ng-if="r.roll_call === v.roll_call">{{r.description}}
@@ -406,6 +394,7 @@ The chart-data directive excepts data in number format and the congress data is 
 
 ```js
 
+//app.js
 //A CUSTOM FILTER FOR CONVERTING STRINGS TO NUMBERS
 angular
  .module("app")
@@ -413,7 +402,6 @@ angular
     return function(input) {
       return parseInt(input, 10);
     };
-
 
 ```
 
