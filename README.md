@@ -135,6 +135,8 @@ When ng-repeat parses the vote array you can use ng-init to run a function as ma
 
 ```html
 
+<!-- //content.html -->
+
 <div ng-repeat="v in votes" ng-init="vm.voteResults(v)">
 <div ng-repeat="r in vm.resultsArr">
   <p ng-if="r.roll_call === v.roll_call">
@@ -151,6 +153,8 @@ When ng-repeat parses the vote array you can use ng-init to run a function as ma
 ```
 
 ```js
+
+//contentCtrl.js
 
 //THIS FUNCTION GETS CALLED AS MANY TIMES
 //AS THE LENGTH OF THE SELF.VOTES ARRAY
@@ -204,6 +208,8 @@ angular
 
 ```html
 
+<!-- content.html -->
+
 <!-- NG-CLASS WILL APPLY A CLASS ACCORDING 
 TO THE PARTY OF SELECTED SENATOR -->
 <div ng-class="{'repub': vm.selected.party === 'R', 'demo': vm.selected.party === 'D'}">
@@ -235,7 +241,7 @@ TO THE PARTY OF SELECTED SENATOR -->
 ### Setup Angular-Material's md-datepicker
 When I ask the congress api for a senator's vote history it returns 100 objects which is a lot of content to scroll through. Showing the votes by a selected date would be a better user experience. You can allow a user to select a date by using an amazing date-picker feature built into the angular-material library. 
 
-In this project I am using the most up-to-date version of angular-material which is basically a library of css and javascript that works well with angular.js apps to help give them a clean look and responsive design. `bower install angular-material --save` and link the css library and js library in index.html. 
+In this project I am using the most up-to-date version of angular-material which is basically a library of css and javascript that works well with angular.js apps to help give them a clean look and responsive design. `bower install angular-material --save` and link the css library and js library in index.html and add `'ngMaterial'` to the app module. 
 
 ```html
 
@@ -245,9 +251,19 @@ In this project I am using the most up-to-date version of angular-material which
 
 ```
 
+```js
+
+//app.js
+
+angular.module('app', ['ngMaterial']);
+
+```
+
 Setting up the date picker is easy to do. Just add the angular-material directive in the html file to activate the date picker feature. 
 
 ```html
+
+<!-- content.html -->
 
 <md-datepicker ng-model="dateObj.myDate" md-placeholder="Enter date" md-min-date="vm.minDate" md-max-date="vm.maxDate"></md-datepicker>
 
@@ -256,6 +272,8 @@ Setting up the date picker is easy to do. Just add the angular-material directiv
 In this example I defined ng-model with a value and I set a minimum date and maximum date to avoid allowing a user to select a date outside that limit. This date picker directive is basically an input that takes a date value when I a user either selects it or types it in. I want my date picker to show todays date as soon as the page loads and I do this by attaching todays date to the ng-model of the date-picker.
 
 ```js
+
+//contentCtrl.js
 
 //DEFINE CURRENT DATE AND OBJECT FOR MD-DATEPICKER'S NG-MODEL
 var nd = new Date();
@@ -283,6 +301,8 @@ For this project I need the value of the selected date to be the same date attac
 
 ```js
 
+//contentCtrl.js
+
 //WATCH THE MD-DATEPICKER SELECTED DATE
 //BY PASSING IN THE dateObj 
 //TO GET THE newVal,myDate WHEN IT CHANGES 
@@ -299,6 +319,8 @@ $scope.$watch('dateObj', function(newVal, oldVal) {
 
 ```html
 
+//content.html
+
 <md-card ng-repeat="v in votes" ng-init="vm.selectVotes(v); vm.voteResults(v)" ng-if="v.date === vm.date">            
   <div ng-repeat="r in vm.resultsArr">
     <p ng-if="r.roll_call === v.roll_call">{{r.description}}
@@ -306,11 +328,93 @@ $scope.$watch('dateObj', function(newVal, oldVal) {
   <div class="results" ng-if="r.roll_call === v.roll_call">
     <p><b>{{r.result}}</b>
     <br> Total Vote: Yes = No = {{r.total.no}}
-    <br> Democrat Vote: No = {{r.democratic.no}} Yes = {{r.democratic.yes}}
-    <br> Republican Vote: No = {{r.republican.no}} Yes = {{r.republican.yes}}
+    <br> Democrat Vote: Yes = {{r.democratic.yes}} No = {{r.democratic.no}} 
+    <br> Republican Vote: Yes = {{r.republican.yes}} No = {{r.republican.no}} 
     <br></p>
   </div>
 </md-card>
 
 ```
+
+### Use angular-chart.js for data visuals
+In this project I want to show the congress data in a pie chart to show another way to display data to the public to make the ui more interesting or add something unique rather than showing text. [Angular-chart.js](https://jtblin.github.io/angular-chart.js/) has some cool options to choose from if you want to spice up your data in the form of beautiful data visuals. `bower install angular-chart.js chart.js --save` and add the script tags to index.html and add `'chart.js'` to the app module.
+
+```html
+
+<!-- index.html -->
+<script src="bower_components/chart.js/dist/Chart.min.js"></script>
+<script src="bower_components/angular-chart.js/dist/angular-chart.js"></script>
+
+```
+
+```js
+
+//app.js
+
+angular.module('app', ['chart.js']);
+
+```
+
+First I want to define the settings of the pie chart in the controller. In the pie chart I want to show the amount of No's and Yes's for each bill voted on depending on which party the senators belong to. I will have to setup the info in the labels, add some animation, and display a title that describes the pie chart. 
+
+```js
+
+//contentCtrl.js
+
+var self = this;
+
+// PIE CHART SETTINGS
+self.labels = ["D (Yes)", "R (Yes)", "D (No)", "R (No)", "Not Voting"];
+self.options = {
+  rotation: 0.5 * Math.PI,
+  title: {
+      display: true,
+      text: 'Vote Results By Party',
+      fontColor: 'rgba(0,0,0,0.4)',
+      fontSize: 16
+  },
+  legend: {
+      display: true
+  }
+}
+
+```
+
+Angular-chart.js uses `<canvas></canvas>` to render the chart in the html. And then bind the data and settings to the canvas tag. 
+
+```html
+
+//content.html
+
+<md-card ng-repeat="v in votes" ng-init="vm.selectVotes(v); vm.voteResults(v)" ng-if="v.date === vm.date">            
+  <div ng-repeat="r in vm.resultsArr">
+    <p ng-if="r.roll_call === v.roll_call">{{r.description}}
+    <br>{{selected.first_name + " " + selected.last_name}} Voted {{v.position}} {{v.question}}</p>
+  <div class="results" ng-if="r.roll_call === v.roll_call">
+    <p><b>{{r.result}}</b>
+    <br> Total Vote: Yes = No = {{r.total.no}}
+    <br></p>
+    <div ng-if="r.roll_call === v.roll_call">
+      <canvas id="pie" class="chart chart-pie" chart-data="[(r.democratic.yes | num),(r.republican.yes | num),(r.democratic.no | num),(r.republican.no | num),(r.total.not_voting | num)]" chart-labels="vm.labels" chart-options="vm.options" style="height:80px; width: 280px;"></canvas>
+    </div> 
+  </div>
+</md-card>
+
+```
+
+The chart-data directive excepts data in number format and the congress data is a string so I use a custom filter called num (`(r.democratic.yes | num)`) to covert the string data to a number. 
+
+```js
+
+//A CUSTOM FILTER FOR CONVERTING STRINGS TO NUMBERS
+angular
+ .module("app")
+   .filter('num', function() {
+    return function(input) {
+      return parseInt(input, 10);
+    };
+
+
+```
+
 

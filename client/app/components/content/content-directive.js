@@ -149,9 +149,9 @@
                 }
 
 
-  // $scope.onClick = function (points, evt) {
-  //   console.log(points, evt);
-  // };
+              // $scope.onClick = function (points, evt) {
+              //   console.log(points, evt);
+              // };
 
 
 
