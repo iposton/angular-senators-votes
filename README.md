@@ -212,12 +212,12 @@ TO THE PARTY OF SELECTED SENATOR -->
   THEN THE CSS CAN PARSE ANGULAR STRING DATA {{selected.id}}
   THIS WILL GET THE CORRECT URL FOR THE BACKGROUND ATTRIBUTE ACCORDING TO NG-CLASS -->
   <style parse-style>
-  md-content.repub .img-box {
+  div.repub .img-box {
       background: linear-gradient(rgba(231, 76, 60, 0.3), rgba(231, 76, 60, 0.3)),
       url(assets/img/senators/{{selected.id}}.jpg);
   }
 
-  md-content.demo .img-box {
+  div.demo .img-box {
       background: linear-gradient(rgba(52, 152, 219, 0.3), rgba(52, 152, 219, 0.3)),
       url(assets/img/senators/{{selected.id}}.jpg);
   }
