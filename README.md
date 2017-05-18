@@ -405,4 +405,34 @@ angular
 
 ```
 
+### Heroku Deploy 
+After you <code>git push</code> to your repo follow the steps below. Assuming you have a heroku account and installed the heroku toolbelt. 
+<ol>
+  <li>run <code>heroku log in</code></li>
+  <li>run <code>heroku create name-of-app</code></li>
+  <li>run <code>git push heroku master</code></li>
+  <li>If deploy successful run <code>heroku open</code></li>
+  If there were problems during deploy and you are trying this from scratch here are some requirements heroku needs to deploy.
+  <li>have all the client js modules in bower.json and in the json file have this line <code>"resolutions": {
+    "angular": "^1.5.8"
+  }</code> below dependencies.</li>
+  <li>make a Procfile and have this line <code>web: node server.js</code></li>
+  <li>make a server.js file in root and heroku needs this line <code>var port = process.env.PORT || 8082;</code> to set the port.</li>
+</ol>
+
+Adding the environment variable for the propublica-congress-api key. I didn't want to share my api key in my repo so I added env var for heroku to use. I stored the key in my heroku app by going to the app settings in my heroku dashboard. Click on Config Variables and add the key (name) and value (api key) there. It will be secured safely away from human view. You can call it to the client side by adding this code to the server.js file. I called my env var API_KEY and made the value the propublica congress api key. 
+
+
+```js
+
+//server.js 
+// for heroku config vars
+app.get('/config.js', function(req, res){
+       res.write("var API_KEY='"+process.env.API_KEY+"'" + '\n');
+       res.end();
+});
+
+
+```
+
 
