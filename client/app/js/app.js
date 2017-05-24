@@ -17,14 +17,16 @@
 
 
      }).filter('num', function() {
-    return function(input) {
-      return parseInt(input, 10);
-    };
-}) // Optional configuration
-  .config(['ChartJsProvider', function (ChartJsProvider) {
-    // Configure all charts
-    ChartJsProvider.setOptions({
-      chartColors: ['#85c1e9', '#eb6f62', '#447393', '#aa4940', '#DCDCDC']
-    });
-    
-  }]);
+         return function(input) {
+             return parseInt(input, 10);
+         };
+     }) // Optional configuration
+     .config(['ChartJsProvider', function(ChartJsProvider) {
+         // Configure all charts
+         // ChartJsProvider.setOptions({
+         //   chartColors: ['#85c1e9', '#eb6f62', '#447393', '#aa4940', '#DCDCDC']
+         // });
+
+
+
+     }]);

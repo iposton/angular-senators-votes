@@ -24,15 +24,24 @@ md-content.demo .img-box {
     <p>
         <md-datepicker ng-model="dateObj.myDate" md-placeholder="Enter date" md-min-date="vm.minDate" md-max-date="vm.maxDate"></md-datepicker>
     </p>
-    <p ng-if="votestoday">Voting results not available at this time. Check back later.</p>
+    <!-- 
+    <p>{{selected.first_name + " " + selected.last_name}} has not voted on a bill for this selected date. <br>
+    Or Voting results are not available at this time. Check back later.</p> -->
 </div>
-<p class="votes-today" ng-if="vm.haveNoVotes && selected && !gettingvotes">{{selected.first_name + " " + selected.last_name}} has not voted on a bill for this selected date.</p>
+<div ng-if="vm.haveNoVotes && selected && !gettingvotes">
+    <div ng-repeat="not in vm.notVotingArray" ng-if="selected.id === not.id">
+        <p class="votes-today">{{not.description2}}
+            <br> {{not.name}} did not vote {{not.question}}</p>
+    </div>
+    <p class="votes-today" ng-if="vm.notVotingArray.length === 0">{{selected.first_name + " " + selected.last_name}} has not voted on a bill for this selected date.
+        <br> Or Voting results are not available at this time. Check back later.</p>
+</div>
 <div layout="row" layout-sm="column" layout-align="space-around" ng-if="gettingvotes">
     <md-progress-circular md-mode="indeterminate" class="md-warn md-hue-3"></md-progress-circular>
 </div>
 <div layout="column" flex class="vote-content card-width" ng-if="selected && !gettingvotes">
     <div ng-view flex>
-        <md-card ng-repeat="v in votes" ng-init="vm.selectVotes(v); vm.voteResults(v, vm.results)" ng-if="v.date === vm.date">
+        <md-card ng-repeat="v in votes" ng-init="vm.selectVotes(v); vm.voteResults(v, vm.results, senators)" ng-if="v.date === vm.date">
             <p ng-if="vm.isLoading">{{v.description}}
                 <br>{{selected.first_name + " " + selected.last_name}} Voted <span ng-class="{'no': v.position == 'No', 'yes': v.position == 'Yes'}">{{v.position}}</span> {{v.question}}</p>
             <div layout="row" layout-sm="column" layout-align="space-around" ng-if="vm.isLoading">
@@ -44,18 +53,41 @@ md-content.demo .img-box {
                     <br>{{selected.first_name + " " + selected.last_name}} Voted <span ng-class="{'no': v.position == 'No', 'yes': v.position == 'Yes'}">{{v.position}}</span> {{v.question}}
                 </p>
                 <div class="results" ng-if="r.roll_call === v.roll_call">
-                       <p>
-                    <b>{{r.result}}</b>
-                    <br> Total Vote: Yes = <span class="y">{{r.total.yes}}</span> No = <span class="n">{{r.total.no}}</span> 
-                    <!-- <br> Democrat Vote: No = {{r.democratic.no}} Yes = {{r.democratic.yes}}
+                    <p>
+                        <b>{{r.result}}</b>
+                        <br> Total Vote: Yes = <span class="y">{{r.total.yes}}</span> No = <span class="n">{{r.total.no}}</span>
+                        <!-- <br> Democrat Vote: No = {{r.democratic.no}} Yes = {{r.democratic.yes}}
                     <br> Republican Vote: No = {{r.republican.no}} Yes = {{r.republican.yes}} -->
-                    <br>
-                </p>
-                <div ng-if="r.roll_call === v.roll_call">
-                    <canvas id="pie" class="chart chart-pie" chart-data="[(r.democratic.yes | num),(r.republican.yes | num),(r.democratic.no | num),(r.republican.no | num),(r.total.not_voting | num)]" chart-labels="vm.labels" chart-options="vm.optionsC" style="height:80px; width: 280px;"></canvas>
-                </div> 
+                        <br>
+                    </p>
+                    <div ng-if="r.roll_call === v.roll_call">
+                        <canvas id="pie" class="chart chart-pie" chart-data="[(r.democratic.yes | num),(r.republican.yes | num),(r.democratic.no | num),(r.republican.no | num),(r.total.not_voting | num)]" chart-labels="vm.labels" chart-options="vm.optionsC" style="height:80px; width: 280px;" chart-colors="vm.colors"></canvas>
+                        <!-- chart-dataset-override="vm.datasetOverride" -->
+                    </div>
+                   
+                    <!-- <h2 style="text-align: center">Notable Results</h2> -->
+                    <div class="noteable-results">
+                        <div ng-if="vm.notVotingArray.length > 0" class="noteable-blocks">
+                            <b>Did not vote.</b>
+                            <div ng-repeat="not in vm.notVotingArray">
+                                <a ng-if="not.id && not.roll_call === r.roll_call" ng-click="vm.childSelected(not.senator)">{{not.name + "("+not.party+"-"+not.state+")"}}</a>
+                            </div>
+                        </div>
+                        <div ng-if="vm.noArray.length > 0" class="noteable-blocks">
+                            <b>Voted No opposite party majority.</b>
+                            <div ng-repeat="no in vm.noArray">
+                                <a ng-if="no.roll_call === r.roll_call" ng-click="vm.childSelected(no.senator)">{{no.name + "("+no.party+"-"+no.state+")"}}</a>
+                            </div>
+                        </div>
+                        <div ng-if="vm.yesArray.length > 0" class="noteable-blocks">
+                            <b>Voted Yes and did not vote with party majority.</b>
+                            <div ng-repeat="yes in vm.yesArray">
+                                <a ng-if="yes.roll_call === r.roll_call" ng-click="vm.childSelected(yes.senator)">{{yes.name + "("+yes.party+"-"+yes.state+")"}} voted Yes opposite party majority.</a>
+                            </div>
+                        </div>
+                    </div>
+                  
                 </div>
-            
                 <p ng-if="v.active && vm.err">Total results for this vote are not available.</p>
             </div>
         </md-card>

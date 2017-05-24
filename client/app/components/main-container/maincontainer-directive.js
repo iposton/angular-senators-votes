@@ -18,12 +18,21 @@
                 self.selected = null;
                 self.tweet = null;
                 self.party = party;
+              
                 // self.gettingvotes = false;
+
+                $scope.$on('childSenator', function(event, newSenator) {
+                    self.selected = newSenator;
+                    self.gettingvotes = true;
+                    $mdBottomSheet.hide(self.selected);
+                    $mdSidenav('left').toggle();
+                    self.getVotes();
+                })
 
                 self.selParty = 'all';
 
                 function party(p) {
-                    // console.log($scope.selected);
+                   
                     if (self.selParty === 'all') {
                         return true;
                     }
@@ -64,6 +73,8 @@
                         self.gettingvotes = false;
                         self.votes = response.data.results[0].votes;
                         self.votestoday = false;
+                        self.noresultsyet = true;
+                        $scope.$broadcast('noresultsyet', self.noresultsyet);
                         
                         var d = new Date();
                         self.today  = new Date(d.getTime() - d.getTimezoneOffset() * 60000).toJSON().slice(0, 10);
@@ -71,8 +82,11 @@
                         if (self.votes[0].date === self.today) {
 
                             self.votestoday = true;
+                            
+                            
+
                             console.log("yes there are votes today", self.votestoday)
-                        }
+                        } 
 
                         // the success method called
 

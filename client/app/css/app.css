@@ -592,6 +592,31 @@ button {
     font-size: 20px;
 }
 
+.noteable-results {
+    text-align: center;
+    font-size: 16px;
+    line-height: 1.5em;
+    margin: 0 auto;
+
+}
+
+.noteable-results {
+    display: flex;
+    /*align-items: center;*/
+    justify-content: center;
+
+}
+
+.noteable-blocks {
+  margin: 10px;
+}
+
+.noteable-results a:hover {
+    color: #666!important;
+    text-decoration: underline!important;
+        
+}
+
 .rep {
     background: rgba(231, 76, 60, 0.8)!important;
     color: #FFF!important;
@@ -657,7 +682,7 @@ button {
 .results span {
   color: #fff; 
   border-radius: 3px;
-  padding: 2px;  
+  padding: 0 3px 0 3px;  
 }
 
 .results span.y { 
