@@ -33,7 +33,7 @@ md-content.demo .img-box {
         <p class="votes-today">{{not.description2}}
             <br> {{not.name}} did not vote {{not.question}}</p>
     </div>
-    <p class="votes-today" ng-if="vm.notVotingArray.length === 0">{{selected.first_name + " " + selected.last_name}} has not voted on a bill for this selected date.
+    <p class="votes-today" ng-if="vm.notVotingArray.length === 0 || vm.notVotingArray === undefined">{{selected.first_name + " " + selected.last_name}} has not voted on a bill for this selected date.
         <br> Or Voting results are not available at this time. Check back later.</p>
 </div>
 <div layout="row" layout-sm="column" layout-align="space-around" ng-if="gettingvotes">
