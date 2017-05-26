@@ -26,12 +26,47 @@ md-toolbar h3 {
     font-weight: 500;
 }
 
+md-toolbar h1 {
+    padding-top: 15px;
+    margin: 0 auto;
+}
+
 md-toolbar {
     text-align: center;
 }
 
+md-input-container {
+    margin: 0 0;
+    color: #444;
+    font-size: 16px;
+    width: 150px;
+    top: 15px;
+}
+
+md-input-container .md-input-focused,
+md-input-container .md-input-has-value,
+.md-text,
+#name {
+    color: #444!important;
+}
+
+md-input-container:not(.md-input-invalid).md-input-focused label {
+    color: #444;
+}
+/*
+md-input-container label {
+  right: auto !important;
+}*/
+
 
 /* Sidenav area */
+
+.no-result-search {
+ background: #E95E4F; 
+ color: #fff; 
+ font-size: 16px; 
+ height: 50px
+}
 
 md-list-item > button,
 md-list-item > a {
@@ -235,6 +270,11 @@ md-list-item .active.democrat {
     color: #FFF;
 }
 
+md-list-item .active.independent {
+    background-color: rgba(108, 191, 108, 0.6);
+    color: #FFF;
+}
+
 md-list-item:hover .republican,
 md-list .md-button:not([disabled]):hover.republican {
     background-color: rgba(231, 76, 60, 0.8);
@@ -244,6 +284,12 @@ md-list .md-button:not([disabled]):hover.republican {
 md-list-item:hover .democrat,
 md-list .md-button:not([disabled]):hover.democrat {
     background-color: rgba(52, 152, 219, 0.6);
+    color: #FFF;
+}
+
+md-list-item:hover .independent,
+md-list .md-button:not([disabled]):hover.independent {
+    background-color: rgba(108, 191, 108, 0.6);
     color: #FFF;
 }
 
@@ -627,6 +673,11 @@ button {
     color: #FFF!important;
 }
 
+.ind {
+    background: rgba(108, 191, 108, 0.6)!important;
+    color: #FFF!important;
+}
+
 .rep-con {
     background: rgba(231, 76, 60, 0.8)!important;
     color: #FFF;
@@ -634,6 +685,11 @@ button {
 
 .dem-con {
     background: rgba(52, 152, 219, 0.6)!important;
+    color: #FFF;
+}
+
+.indy-con {
+    background: rgba(108, 191, 108, 0.6)!important;
     color: #FFF;
 }
 

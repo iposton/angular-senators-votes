@@ -8,13 +8,18 @@ md-content.demo .img-box {
     background: linear-gradient(rgba(52, 152, 219, 0.3), rgba(52, 152, 219, 0.3)),
     url(assets/img/senators/{{selected.id}}.jpg);
 }
+
+md-content.indy .img-box {
+    background: linear-gradient(rgba(108, 191, 108, 0.3), rgba(108, 191, 108, 0.3)),
+    url(assets/img/senators/{{selected.id}}.jpg);
+}
 </style>
 <div layout="row" layout-sm="column" layout-align="space-around" ng-if="!selected">
     <md-progress-circular md-mode="indeterminate" class="md-warn md-hue-3"></md-progress-circular>
 </div>
 <a ng-href="{{selected.url}}" target="_blank" title="go to {{selected.url}}" ng-if="selected">
     <div class="img-box avatar"></div>
-    <div ng-class="{'rep-con': selected.party == 'R', 'dem-con': selected.party == 'D'}" class="party-con">
+    <div ng-class="{'rep-con': selected.party === 'R', 'dem-con': selected.party === 'D', 'indy-con': selected.party === 'I'}" class="party-con">
         <h2 ng-if="selected">{{selected.first_name + " " + selected.last_name + "("+selected.party+"-"+selected.state+")"}}</h2>
         <h4 ng-if="selected">Votes with party: {{selected.votes_with_party_pct}}%</h4>
     </div>
@@ -93,7 +98,7 @@ md-content.demo .img-box {
         </md-card>
     </div>
 </div>
-<md-button ng-class="{'rep': selected.party == 'R', 'dem': selected.party == 'D'}" class="share md-raised" md-no-ink aria-label="Share with {{selected.name}}" ng-click="vm.makeContact(selected)">
+<md-button ng-class="{'rep': selected.party === 'R', 'dem': selected.party === 'D', 'ind': selected.party === 'I'}" class="share md-raised" md-no-ink aria-label="Share with {{selected.name}}" ng-click="vm.makeContact(selected)">
     contact
 </md-button>
 <div>

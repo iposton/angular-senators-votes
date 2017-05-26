@@ -39,7 +39,7 @@
                 
 
                 function childSelected (childSenator) {
-                    console.log(childSenator, "I selected a senator from not voting list");
+                    //console.log(childSenator, "I selected a senator from not voting list");
                     $scope.$emit('childSenator', childSenator);
 
                 }

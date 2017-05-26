@@ -10,16 +10,20 @@
                 controllerAs: "vm"
             }
 
-            function mainContainerCtrl(mainService, $mdBottomSheet, $mdSidenav, $http, $scope) {
+            function mainContainerCtrl(mainService, $mdBottomSheet, $mdSidenav, $http, $scope, $rootScope) {
 
                 var self = this;
 
-                // Set globals
+                //SET GLOBALS
                 self.selected = null;
-                self.tweet = null;
+                //self.search = "";
+
+                //DEFINE FUNCTIONS
+                self.selectSenator = selectSenator;
+                self.setActive = setActive;
+                self.getVotes = getVotes;
+                self.sensitiveSearch = sensitiveSearch;
                 self.party = party;
-              
-                // self.gettingvotes = false;
 
                 $scope.$on('childSenator', function(event, newSenator) {
                     self.selected = newSenator;
@@ -30,14 +34,30 @@
                 })
 
                 self.selParty = 'all';
+                //LISTEN FOR CHANGES ON SELECT MENU FOR NG-SHOW
+                $rootScope.$on('parentSelParty', function(event, selParty) {
+                    self.selParty = selParty;
+                });
+
+                //LISTEN FOR CHANGES ON SEARCH AND DEFINE SELF.SEARCH 
+                $rootScope.$on('parentSearch', function(event, search) {
+                    self.search = search;
+                });
 
                 function party(p) {
-                   
                     if (self.selParty === 'all') {
                         return true;
                     }
                     return self.selParty === p;
                 }
+
+                function sensitiveSearch(s) {
+                    if (self.search) {
+                        return s.first_name.indexOf(self.search) == 0;
+                        //|| s.state.indexOf(self.search) == 0;
+                    }
+                    return true;
+                };
 
                 $http({
                     method: 'get',
@@ -54,12 +74,6 @@
                 })
 
 
-                // Define functions
-                self.selectSenator = selectSenator;
-                self.setActive = setActive;
-
-                self.getVotes = getVotes;
-
                 function getVotes() {
                     // self.gettingvotes = true;
                     $http({
@@ -75,18 +89,18 @@
                         self.votestoday = false;
                         self.noresultsyet = true;
                         $scope.$broadcast('noresultsyet', self.noresultsyet);
-                        
+
                         var d = new Date();
-                        self.today  = new Date(d.getTime() - d.getTimezoneOffset() * 60000).toJSON().slice(0, 10);
+                        self.today = new Date(d.getTime() - d.getTimezoneOffset() * 60000).toJSON().slice(0, 10);
                         console.log(self.votes[0].date, 'votes date', self.today, 'today');
                         if (self.votes[0].date === self.today) {
 
                             self.votestoday = true;
-                            
-                            
+
+
 
                             console.log("yes there are votes today", self.votestoday)
-                        } 
+                        }
 
                         // the success method called
 

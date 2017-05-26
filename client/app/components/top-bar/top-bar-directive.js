@@ -13,23 +13,44 @@
                 controllerAs: "vm"
             }
 
-            function topBarCtrl ($mdBottomSheet, $mdSidenav, $scope) {
+            function topBarCtrl ($mdBottomSheet, $mdSidenav, $scope, $rootScope) {
 
                 var self = this;
                  
-                 // Define Functions 
+                //DEFINE FUNCTIONS 
                 self.toggleList = toggleList;
                 
+                //WATCH WHEN SELECT OPTION CHANGES AND 
+                //BROADCAST TO ROOTSCOPE
+                $scope.selParty = 'all';
+                $scope.$watch('selParty', function(newVal, oldVal) {
+                    
+                    if(newVal) {
+                        $rootScope.$broadcast('parentSelParty', newVal); 
+                    }
+                   
+                }, true);
 
-                 // VALUES FOR THE POPOVER ON NAV
-                self.classes = 'drop-theme-arrows-bounce-dark';
-                self.constrainToScrollParent = 'true';
-                self.constrainToWindow = 'true';
-                self.openOn = 'hover';
-                self.position = 'bottom center';
+                //WATCH WHEN SEARCH INPUT CHANGES AND 
+                //BROADCAST TO ROOTSCOPE
+                $scope.search = "";
+                $scope.$watch('search', function(newVal, oldVal) {
+                    if(newVal || newVal === "") {
+                        $rootScope.$broadcast('parentSearch', newVal); 
+                    }
+                   
+                }, true);
+                 
 
-                self.myWebsite = 'http://www.ianposton.com/';
-                self.myRepo = 'https://github.com/iposton/angular-material-dynamic-list';
+                // VALUES FOR THE POPOVER ON NAV
+                // self.classes = 'drop-theme-arrows-bounce-dark';
+                // self.constrainToScrollParent = 'true';
+                // self.constrainToWindow = 'true';
+                // self.openOn = 'hover';
+                // self.position = 'bottom center';
+
+                // self.myWebsite = 'http://www.ianposton.com/';
+                // self.myRepo = 'https://github.com/iposton/angular-material-dynamic-list';
 
                  
 

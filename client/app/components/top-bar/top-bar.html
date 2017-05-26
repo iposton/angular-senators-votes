@@ -1,16 +1,27 @@
 <md-toolbar layout="row">
-        <md-button class="menu" ng-click="vm.toggleList()" hide-gt-sm aria-label="Show list sidenav">
-            <md-icon md-svg-icon="menu"></md-icon>
-        </md-button>
-        <h1>Senators and votes</h1>
-       <!--  <drop classes='vm.classes' constrain-to-scroll-parent='vm.constrainToScrollParent' constrain-to-window='vm.constrainToWindow' open-on='vm.openOn' position='vm.position'>
+    <md-button class="menu" ng-click="vm.toggleList()" hide-gt-sm aria-label="Show list sidenav">
+        <md-icon md-svg-icon="menu"></md-icon>
+    </md-button>
+     <md-input-container>
+        <label></label>
+        <md-select ng-model="selParty">
+            <md-option value="all" selected>All</md-option>
+            <md-option value="D">Democrat</md-option>
+            <md-option value="R">Republican</md-option>
+            <md-option value="I">Independent</md-option>
+        </md-select>
+    </md-input-container>
+    <md-input-container>
+        <label>Search Name</label>
+        <input type="text" id="name" ng-model="search" />
+    </md-input-container>
+    <h1>Senators and votes</h1>
+    <!--  <drop classes='vm.classes' constrain-to-scroll-parent='vm.constrainToScrollParent' constrain-to-window='vm.constrainToWindow' open-on='vm.openOn' position='vm.position'>
             <div class="pop-over">
                 created by <a ng-href="{{ vm.myWebsite }}" title="My Website ianposton.com" target="_blank">Ian Poston</a> <span>
                 <a ng-href="{{ vm.myRepo }}" target="_blank"><md-icon md-svg-icon="assets/svg/github-box.svg" title="The repo of this angular app."></md-icon></a></span>
                 <h5>This is my list of the top websites <br> that have helped me learn how to code. <br></h5>
             </div>
         </drop> -->
-
-     
-        
+   
 </md-toolbar>
