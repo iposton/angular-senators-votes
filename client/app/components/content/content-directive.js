@@ -23,22 +23,22 @@
                 var self = this;
 
                 $scope.$on('noresultsyet', function(event, noresult) {
-                    console.log(noresult, 'noresult was received');
+                    //console.log(noresult, 'noresult was received');
                     self.haveNoVotes = noresult;
                 });
-               
+
                 self.message = null;
                 self.isLoading = false;
                 self.haveNoVotes = true;
-               
+
                 // DEFINE FUNCTIONS
                 self.makeContact = makeContact;
                 self.voteResults = voteResults;
                 self.selectVotes = selectVotes;
                 self.childSelected = childSelected;
-                
 
-                function childSelected (childSenator) {
+
+                function childSelected(childSenator) {
                     //console.log(childSenator, "I selected a senator from not voting list");
                     $scope.$emit('childSenator', childSenator);
 
@@ -68,18 +68,17 @@
 
                     //DEFINE ARRAYS
                     self.resultsArr = [];
-                    self.yesArray = [];
-                    self.noArray = [];
+                    self.yesArrayDem = [];
+                    self.noArrayDem = [];
+                    self.yesArrayRep = [];
+                    self.noArrayRep = [];
                     self.notVotingArray = [];
-                    
-                    //COUNTERS
-                    var votedYes = 0;
-                    var votedNo = 0;
+
 
                     self.isLoading = true;
                     self.err = false;
                     var voteUri = v.vote_uri;
-                    var vRoll = v.roll_call;
+                    var vRoll = parseInt(v.roll_call, 10);
                     var vQuestion = v.question;
                     var senators = sen;
 
@@ -91,21 +90,11 @@
                         var resultPosition = response.data.results.votes.vote.positions;
                         var resultDesc = response.data.results.votes.vote.description;
                         var senantorPosition = null;
-                        
+
                         angular.forEach(senators, function(s) {
                             angular.forEach(resultPosition, function(i) {
 
                                 i.roll_call = vRoll;
-                            
-                                if (i.vote_position === 'No') {
-                                     votedNo += 1;
-                                }
-
-                                if (i.vote_position === 'Yes') {
-                                    votedYes += 1;
-                                    
-                                }
-
 
                                 if (s.id === i.member_id) {
                                     senantorPosition = {
@@ -119,35 +108,27 @@
                                         question: vQuestion,
                                         senator: s
                                     }
-                                   
+
                                     if (senantorPosition.position === 'Not Voting') {
                                         self.notVotingArray.push(senantorPosition);
                                     }
 
-                                    if (senantorPosition.position === 'No') {
-
-                                        
-                                        self.noArray.push(senantorPosition);
-                                        if(votedNo / 100 > 10) {
-                                            self.noArray = [];
-                                            //console.log('too many noses gotta dump. bye bye array');
-                                        }
-
-
+                                    if (senantorPosition.position === 'No' && senantorPosition.party === 'D') {
+                                        self.noArrayDem.push(senantorPosition);
                                     }
 
-                                    if (senantorPosition.position === 'Yes') {
-                                       
-                                        self.yesArray.push(senantorPosition);
-                                        if(votedYes / 100 > 10) {
-                                            self.yesArray = [];
-                                            //console.log('too many yeses gotta dump. bye bye array');
-                                        }
+                                    if (senantorPosition.position === 'Yes' && senantorPosition.party === 'D') {
+                                        self.yesArrayDem.push(senantorPosition);
+                                    }
+
+                                    if (senantorPosition.position === 'No' && senantorPosition.party === 'R') {
+                                        self.noArrayRep.push(senantorPosition);
+                                    }
+
+                                    if (senantorPosition.position === 'Yes' && senantorPosition.party === 'R') {
+                                        self.yesArrayRep.push(senantorPosition);
                                     }
                                 }
-                               
-
-
 
                             })
                         })
@@ -158,10 +139,6 @@
                         console.log(self.resultsArr, "results array");
                         self.isLoading = false;
                         self.err = false;
-
-                        // console.log(self.yesArray, ' senators that voted yes');
-                        // console.log(self.noArray, ' senators that voted no');
-                        // console.log(self.notVotingArray, ' senators that did not vote');
 
                     }).catch(function(error) {
                         console.error("Error with GET request", error);
@@ -183,7 +160,7 @@
 
                 self.minDate = new Date(
                     new Date().getFullYear(),
-                    new Date().getMonth() - 2,
+                    new Date().getMonth() - 5,
                     new Date().getDate()
                 );
 
@@ -278,7 +255,7 @@
                     pointHoverBorderColor: 'rgb(220, 220, 220)'
                 }];
 
-    
+
 
                 // $scope.onClick = function (points, evt) {
                 //   console.log(points, evt);
@@ -332,6 +309,10 @@
                 scope.$watch(watchFunc, function(html) {
                     elem.html(html);
                 });
+            };
+        }).filter('num', function() {
+            return function(input) {
+                return parseInt(input, 10);
             };
         });
 }());

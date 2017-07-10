@@ -92,7 +92,7 @@
 
                         var d = new Date();
                         self.today = new Date(d.getTime() - d.getTimezoneOffset() * 60000).toJSON().slice(0, 10);
-                        console.log(self.votes[0].date, 'votes date', self.today, 'today');
+                        //console.log(self.votes[0].date, 'votes date', self.today, 'today');
                         if (self.votes[0].date === self.today) {
 
                             self.votestoday = true;

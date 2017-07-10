@@ -53,10 +53,6 @@ md-input-container .md-input-has-value,
 md-input-container:not(.md-input-invalid).md-input-focused label {
     color: #444;
 }
-/*
-md-input-container label {
-  right: auto !important;
-}*/
 
 
 /* Sidenav area */
@@ -187,8 +183,8 @@ md-toolbar h1 {
 
 .avatar {
     position: relative;
-    width: 128px;
-    height: 128px;
+    width: 200px;
+    height: 200px;
     /*border: 1px solid #ddd;*/
     /*border-radius: 50%;*/
     display: inline-block;
@@ -618,7 +614,7 @@ button {
 
 .vote-content {
     overflow: scroll;
-    height: 415px;
+    height: 445px;
     position: absolute;
 }
 
@@ -636,6 +632,10 @@ button {
 .votes-today {
     text-align: center;
     font-size: 20px;
+}
+
+.votes-today p {
+    margin: 0;
 }
 
 .noteable-results {
@@ -704,13 +704,15 @@ button {
 }
 
 .party-con {
+    display: inline-block;
     width: 35%;
+    padding: 7px;
 }
 
 .img-box {
     background-repeat: no-repeat!important;
     background-position: center!important;
-    background-size: 128px!important;
+    background-size: 200px!important;
     /*background-image: -webkit-linear-gradient(rgba(231, 76, 60, 0.6), rgba(231, 76, 60, 0.2))!important;*/
     /*background-image: linear-gradient(rgba(231, 76, 60, 0.2), rgba(231, 76, 60, 0.2))!important;*/
 }
@@ -757,17 +759,41 @@ button {
     font-size: 20px;
 }
 
-/* PIE CHART */
-
-canvas {
-  height:80px; 
-  width: 280px;
-}
-
-
 
 @media only screen and (max-width: 700px) {
       .party-con {
       width: 100%;
   }
+
+  md-toolbar h1 {
+    font-size: 14px;
+  }
+
+  md-input-container {
+    font-size: 12px;
+    width: 80px;    
+  }
+
+      canvas {
+      height:auto; 
+      width: 100%;
+    }
+
+    .card-width {
+        width: 100%;
+    }
+
+    .vote-content p {
+      
+        font-size: 14px;
+       
+  }
+
+  .noteable-results {
+    font-size: 12px;
+  }
+
+    .vote-content {  
+      height: 315px;   
+    }
 }
