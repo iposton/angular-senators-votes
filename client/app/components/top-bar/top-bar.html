@@ -16,6 +16,7 @@
         <input type="text" id="name" ng-model="search" />
     </md-input-container>
     <h1>Senators and votes</h1>
+    <md-button ng-click="vm.searchVoteModal($event, vm.votes)">Search Votes</md-button>
     <!--  <drop classes='vm.classes' constrain-to-scroll-parent='vm.constrainToScrollParent' constrain-to-window='vm.constrainToWindow' open-on='vm.openOn' position='vm.position'>
             <div class="pop-over">
                 created by <a ng-href="{{ vm.myWebsite }}" title="My Website ianposton.com" target="_blank">Ian Poston</a> <span>

@@ -89,6 +89,7 @@
                         self.votestoday = false;
                         self.noresultsyet = true;
                         $scope.$broadcast('noresultsyet', self.noresultsyet);
+                        $rootScope.$broadcast('votes', self.votes);
 
                         var d = new Date();
                         self.today = new Date(d.getTime() - d.getTimezoneOffset() * 60000).toJSON().slice(0, 10);

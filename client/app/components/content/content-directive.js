@@ -18,7 +18,7 @@
                 controllerAs: "vm"
             }
 
-            function contentCtrl(mainService, $mdBottomSheet, $mdSidenav, $scope, $mdDialog, $mdToast, $http, $mdPanel, $compile, $timeout, $filter, $mdDateLocale) {
+            function contentCtrl(mainService, $mdBottomSheet, $mdSidenav, $scope, $mdDialog, $mdToast, $http, $mdPanel, $compile, $timeout, $filter, $mdDateLocale, $rootScope) {
 
                 var self = this;
 
@@ -157,6 +157,11 @@
                 $scope.dateObj = {
                     myDate: nd
                 }
+                
+
+                $rootScope.$on('date', function(event, date) {
+                    $scope.dateObj.myDate = new Date(date.replace(/-/g, '\/'));                  
+                });
 
                 self.minDate = new Date(
                     new Date().getFullYear(),
