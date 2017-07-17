@@ -681,7 +681,7 @@ button {
 
 @media only screen and (max-width: 700px) {
     .party-con {
-        width: 50%;
+        width: 75%;
     }
     
     md-input-container {
