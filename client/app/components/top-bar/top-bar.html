@@ -11,12 +11,12 @@
             <md-option value="I">Independent</md-option>
         </md-select>
     </md-input-container>
-    <md-input-container hide-sm>
+    <md-input-container hide-xs>
         <label>Search Name</label>
         <input type="text" id="name" ng-model="search" />
     </md-input-container>
     <h1>Senators and votes</h1>
-    <md-button ng-click="vm.searchVoteModal($event, vm.votes)">Search Votes</md-button>
+    <md-button ng-click="vm.searchVoteModal($event, vm.votes)" hide-xs>Search Votes</md-button>
     <!--  <drop classes='vm.classes' constrain-to-scroll-parent='vm.constrainToScrollParent' constrain-to-window='vm.constrainToWindow' open-on='vm.openOn' position='vm.position'>
             <div class="pop-over">
                 created by <a ng-href="{{ vm.myWebsite }}" title="My Website ianposton.com" target="_blank">Ian Poston</a> <span>

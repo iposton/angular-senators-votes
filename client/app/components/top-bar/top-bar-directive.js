@@ -113,7 +113,7 @@
                                          </md-input-container>
                                         <div ng-repeat="v in filteredSearch = (vm.votes| filter:vm.sensitiveSearch)">
                                        
-                                          <h2><a ng-click="vm.setDatePicker(v.date); vm.cancel();">{{v.description +" "+ v.date}}</a></h2>
+                                          <h2><a ng-click="vm.setDatePicker(v.date); vm.cancel();">{{v.description}}</a></h2>
                                           
                                         </div>
                                         <div>
